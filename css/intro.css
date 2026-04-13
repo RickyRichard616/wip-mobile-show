@@ -1,0 +1,84 @@
+/* Posicionamiento */
+
+    .container{
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .tl { top: 0; left: 0; }
+    .tr { top: 0; right: 0; }
+    .bl { bottom: 0; left: 0; }
+    .br { bottom: 0; right: 0; }
+
+
+/* Barra de carga */
+
+    .loadbar{
+        opacity: 1;
+        position: relative;
+        height: 50px;
+        width: 300px;
+        border: 4px solid whitesmoke;
+        background-color: rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+
+        animation-delay: 3s;
+        transition: transform 0.3s ease, opacity 5s ease;
+
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+        touch-action: none;
+    }
+
+    .loadbar .load{
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background-color: yellow;
+
+        transform: translateX(var(--progress, -100%));
+        transition: transform 5s ease;
+    }
+
+    .load-wrapper{
+        height: 100%;
+        width: 100%;
+    }
+
+    .loading{
+        animation: shake 0.08s infinite;
+    }
+
+    .unloading{
+        animation: shake 0.2s infinite;
+    }
+
+/* Obstaculos */
+
+    .corner{
+        opacity: 1;
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        background: rgba(255, 255, 255, 0.8);
+
+        transition: opacity 2s ease, transform 1s ease;
+    }
+
+    .corner.hide{
+        opacity: 0;
+        transform: scale(0.6);
+    }
+
+@keyframes shake{
+    0%   { transform: translate(0px,0px) }
+    20%  { transform: translate(-2px,1px) }
+    40%  { transform: translate(2px,-1px) }
+    60%  { transform: translate(-1px,-2px) }
+    80%  { transform: translate(1px,2px) }
+    100% { transform: translate(0px,0px) }
+}

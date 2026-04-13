@@ -1,0 +1,90 @@
+#wrapper-bromas {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+}
+
+#cortina-estatica {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../resources/images/endState/cubreCortina.webp'); /* Tu dibujo de image_3.png */
+    background-size: cover;
+    background-position: center;
+    background-repeat: center;
+    
+    /* CAPA SUPERIOR */
+    z-index: 1100; /* Mayor que el 1000 del wrapper-bromas */
+    
+    /* EL SECRETO */
+    pointer-events: none; 
+    
+    /* Animación de salida */
+    transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+}
+
+/* Clase para el efecto de "atravesar" las cortinas al final */
+.vuelo-final {
+    opacity: 0;
+    transform: scale(1.3); /* Se expande mientras se desvanece */
+}
+
+.capa-cortina {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+    touch-action: none; /* Vital para móviles */
+    transition: transform 0.3s ease-out, opacity 4s ease 1s; /* Suave mientras arrastras */
+}
+
+.capa-cortina.lanzada {
+    transition: transform 0.7s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.2s ease;
+}
+
+.texto-broma {
+    font-size: clamp(24px, 8vw, 42px); /* Mínimo 24px, escala con la pantalla, máximo 42px */
+    text-align: center;
+    width: 100%;
+    max-width: 50vw;
+    color: white;
+    padding: 30px;
+    user-select: none;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+
+    /* Animación: nombre | duración | suavidad | bucle infinito | va y vuelve */
+    animation: flotarMistico 4s ease-in-out infinite alternate;
+}
+
+#mesa {
+    transition: opacity 2s ease;
+}
+
+@keyframes flotarMistico {
+    0% {
+        transform: translateY(0) scale(1);
+        text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    100% {
+        transform: translateY(-10px) scale(1.05);
+        text-shadow: 0 20px 30px rgba(0,0,0,0.1);
+    }
+}
+
+@media (min-width: 768px) {
+    /* Ajustes para tablets */
+    .texto-broma {
+        font-size: 36px; /* Congelamos el tamaño en pantallas grandes */
+    }
+    .capa-cortina {
+        background-size: contain; /* Evita que se corten las puntas de las cortinas */
+    }
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>El Oráculo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Fuente -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <!-- Estilos -->
+    <link rel="stylesheet" href="css/cortinas.css">
+    <link rel="stylesheet" href="css/intro.css">
+    <link rel="stylesheet" href="css/cardFlip.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+    <div id="app-container" class="escena-proporcion">
+
+    <!-- AÑADIR PARTICULAS AL CURSOR, MUSICA Y MAS ANIMACIONES -->
+
+        <section id="capa-cortinas">
+            <div id="cortina-estatica"></div>
+
+            <div id="wrapper-bromas">
+                <div id="cortina-activa" class="capa-cortina">
+                    <h1 id="texto-broma" class="texto-broma almendra-regular-italic"></h1>
+                </div>
+            </div>
+
+            <main id="mesa" style="display: none; opacity: 0;">
+                <h2 class="almendra-regular-italic" style="color: white; text-align: center; margin-top: 20vh;">Bienvenida a la Sala Común</h2>
+            </main>
+        </section>
+
+        <!--  -->
+
+        <section id="capa-ritual" style="display: none;">
+            <div class="container">
+                
+                <div class="loadbar">
+                        <div class="load"></div>
+                </div>
+
+                <div class="corner tl"></div>
+                <div class="corner tr"></div>
+                <div class="corner bl"></div>
+                <div class="corner br"></div>
+            
+            </div>
+        </section>
+
+        <section id="capa-tarot" style="display: none;">
+            <div class="cartas">
+                    <label class="contenedor-carta">
+                        <input type="checkbox" class="carta-toggle" hidden>
+                        <div class="carta">
+                            <div class="carta-interior">
+                                <div class="carta-frente">
+                                    <img src="resources/images/cartaReverso.png">
+                                </div>
+                                <div class="carta-reverso">
+                                    <img src="resources/images/cartaFrente.png">
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="contenedor-carta">
+                        <input type="checkbox" class="carta-toggle" hidden>
+                        <div class="carta">
+                            <div class="carta-interior">
+                                <div class="carta-frente">
+                                    <img src="resources/images/cartaReverso.png">
+                                </div>
+                                <div class="carta-reverso">
+                                    <img src="resources/images/cartaFrente.png">
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="contenedor-carta">
+                        <input type="checkbox" class="carta-toggle" hidden>
+                        <div class="carta">
+                            <div class="carta-interior">
+                                <div class="carta-frente">
+                                    <img src="resources/images/cartaReverso.png">
+                                </div>
+                                <div class="carta-reverso">
+                                    <img src="resources/images/cartaFrente.png">
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+        </section>
+
+    </div>
+
+    <script src="js/cortinas.js"></script>
+    <script src="js/intro.js"></script>
+    <script src="js/main.js"></script> </body>
+</html>

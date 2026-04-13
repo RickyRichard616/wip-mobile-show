@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cortinas</title>
+    <link rel="stylesheet" href="css/cortinas.css">
+</head>
+<body>
+
+    <!--
+        AÑADIR UNA CAJA QUE SIGA AL CURSOR CUANDO TOCA LA CORTINA
+        EL MISMO DEBE SER UNA IMAGEN SIN FONDO QUE SIMULE SUJETAR LA CORTINA
+        DEBE ESTAR POR SOBRE LA IMAGEN DE LA CORTINA PERO DENTRO DE SU BLOQUE
+        CON UN OVERFLOW HIDDEN CON TAL DE QUE NO PUEDA SOBRESALIR DE LOS
+        BORDES DE LA CORTINA
+
+        O
+
+        EN SU DEFECTO PODRIA CREAR 2 CORTINAS DISTINTAS, UNA SIN Y OTRA
+        CON LA PRESION DE SER ABIERTA, OCULTAR LA PRIMERA Y ENSEÑAR LA
+        SEGUNDA AL MOMENTO DE ESTAR MOVIENDO LA CORTINA CON UNA TRANSICION
+        DE FADE. SIN OLVIDAR VOLTEAR LA IMAGEN DEPENDIENDO DE LA ORIENTACION
+        PERO ME RESULTA COMPLICADO DETERMINAR ESO MISMO SIN DESTRUIR LA LIBERTAD
+        DE ABRIR LA CORTINA POR AMBOS LADOS
+    -->
+
+    <div id="wrapper-bromas">
+        <div id="cortina-activa" class="capa-cortina">
+            <h1 id="texto-broma" class="texto-broma"></h1>
+        </div>
+    </div>
+
+    <main id="mesa" style="display: none; opacity: 0;">
+        <h2 style="color: white; text-align: center; margin-top: 20vh;">Bienvenida a la Sala Común</h2>
+    </main>
+
+    <script src="js/cortinas.js"></script>
+</body>
+</html>

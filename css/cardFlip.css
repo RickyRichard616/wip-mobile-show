@@ -1,0 +1,62 @@
+.cartas{
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content:center;
+}
+
+.contenedor-carta{
+    display: block;
+    width: 200px;
+    height: 300px;
+    margin: 1%;
+}
+
+.carta{
+    background-color: transparent;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    perspective: 1000px; /* 3D effect */
+}
+
+/* Posicionar correctamente ambos lados de la carta */
+.carta-interior{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 2s ease-in-out;
+    transform-style: preserve-3d;
+}
+
+/* Causar que la carta rote al pasar el mouse */
+.carta-toggle:checked + .carta .carta-interior{
+    transform: rotateY(-180deg);
+}
+
+/* Posicionar ambos lados de la carta y ocultar el reverso de cada una*/
+.carta-frente, .carta-reverso{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+
+/* estilizar el frente */
+.carta-frente{ 
+    color: white;
+}
+.carta img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* estilizar el reverso */
+.carta-reverso{
+    color: black;
+    transform:rotateY(180deg);
+}
