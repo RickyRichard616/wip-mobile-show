@@ -37,12 +37,14 @@
     justify-content: center;
     align-items: center;
     cursor: grab;
-    touch-action: none; /* Vital para móviles */
-    transition: transform 0.3s ease-out, opacity 4s ease 1s; /* Suave mientras arrastras */
+    touch-action: none;
+    will-change: transform, opacity;
+    /* Quitamos la transition de aquí, la manejaremos dinámicamente en JS */
 }
 
 .capa-cortina.lanzada {
-    transition: transform 0.7s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.2s ease;
+    /* Esta clase ahora sirve principalmente como marcador de estado */
+    pointer-events: none; 
 }
 
 .texto-broma {

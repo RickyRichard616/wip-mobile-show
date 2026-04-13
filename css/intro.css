@@ -1,20 +1,137 @@
 /* Posicionamiento */
 
-    .container{
-        position: fixed;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+/* El contenedor padre debe cubrir toda la pantalla */
+#capa-ritual {
+    position: fixed; /* O fixed para que no se mueva */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
 
-    .tl { top: 0; left: 0; }
-    .tr { top: 0; right: 0; }
-    .bl { bottom: 0; left: 0; }
-    .br { bottom: 0; right: 0; }
+/* El contenedor interno donde ocurre la magia */
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 1. La Mesa (Capa de fondo) */
+/* Ajustamos la mesa para que sea el punto de referencia real */
+.mesa {
+    position: absolute;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh; /* Mantiene el tamaño del asset original */
+    pointer-events: none;
+}
+
+.base-mesa {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Asegura que la imagen no se deforme */
+    object-position: bottom; /* Empuja el dibujo hacia abajo */
+}
+
+.mesa img {
+    width: 100vw; /* Que ocupe todo el ancho para que la base sea estable */
+    max-width: none; 
+    height: auto;
+    display: block;
+}
+
+/* 2. El Septagrama (Encima de la mesa) */
+.septagrama {
+    position: absolute;
+    z-index: 2;
+    bottom: 15%; /* Ajusta este % hasta que quede centrado en tu dibujo de mesa */
+}
+
+.septagrama img {
+    width: 280px;
+    opacity: 0.6;
+}
+
+/* CREAMOS UN CONTENEDOR NUEVO 
+   Este contenedor solo cubrirá el área de la madera (aprox. el 40% inferior)
+*/
+.objetos {
+    position: absolute;
+    bottom: 5%;
+    left: 0;
+    width: 100%;
+    height: 25%; /* Reducimos el área de colisión solo a la madera */
+    z-index: 3;
+    border: 2px solid red;
+}
+
+.objetos img {
+    position: absolute;
+    height: auto;
+    /* Suavizamos el renderizado de los dibujos */
+    image-rendering: auto;
+    filter: drop-shadow(0 5px 5px rgba(0,0,0,0.4));
+}
+
+/* COORDINADAS PRECISAS (Basadas en tu imagen objetivo) */
+
+/* Izquierda Superior (Silla y Mueble) */
+.tl img:nth-child(1) { bottom: 60%; left: 12%; width: 40px; } 
+.tl img:nth-child(2) { bottom: 75%; left: 25%; width: 55px; } 
+
+/* Derecha Superior (Vaso y Velas) */
+.tr img:nth-child(1) { bottom: 55%; right: 10%; width: 60px; } 
+.tr img:nth-child(2) { bottom: 80%; right: 30%; width: 80px; } 
+
+/* Izquierda Inferior (Bolso y Espejo) */
+.bl img:nth-child(1) { bottom: 10%; left: 8%; width: 130px; } 
+.bl img:nth-child(2) { bottom: 25%; left: 22%; width: 35px; } 
+
+/* Derecha Inferior (Libros) */
+.br img:nth-child(1) { bottom: 15%; right: 12%; width: 120px; }
+
+/* Posicionamos las imágenes dentro de cada corner */
+.corner img {
+    position: absolute;
+    height: auto;
+}
+
+/* Septagrama centrado en el medio de la madera */
+.septagrama {
+    position: absolute;
+    bottom: 8%; /* Ajustado al centro visual del dibujo */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+.septagrama img {
+    width: 400px;
+    opacity: 1;
+}
+
+/* 4. La Barra de Carga (Al frente de todo) */
+.loadbar {
+    position: absolute;
+    bottom: 25%; 
+    width: 200px;
+    height: 4px;
+    z-index: 10;
+}
 
 
-/* Barra de carga */
+
+
+
+
+
+/*
 
     .loadbar{
         opacity: 1;
@@ -57,7 +174,7 @@
         animation: shake 0.2s infinite;
     }
 
-/* Obstaculos */
+/* Obstaculos
 
     .corner{
         opacity: 1;
