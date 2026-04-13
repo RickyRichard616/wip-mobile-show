@@ -2,7 +2,7 @@ const bromas = [
     { texto: "Entra a la casa...", color: "#eeba30" }, // Amarillo
     { texto: "Ups, no recordaba tener 2 cortinas, ánimo", color: "#1a1a1a" }, // Negro
     { texto: "3..? Creo que debo contactar a mis decoradores", color: "#eeba30" },
-    { texto: "En serio una más? Esto ya parece un gatcha", color: "#1a1a1a" },
+    { texto: "En serio una más? Esto ya parece un gacha", color: "#1a1a1a" },
     { texto: "Te juro, te prometo, que es la última", color: "#eeba30" }
 ];
 

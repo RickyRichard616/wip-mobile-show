@@ -3,8 +3,6 @@
     width: 100vw;
     height: 100vh;
     z-index: 1000;
-    top: 0;
-    left: 0;
 }
 
 #cortina-estatica {
@@ -16,7 +14,7 @@
     background-image: url('../resources/images/endState/cubreCortina.webp'); /* Tu dibujo de image_3.png */
     background-size: cover;
     background-position: center;
-    background-repeat: center;
+    background-repeat: no-repeat;
     
     /* CAPA SUPERIOR */
     z-index: 1100; /* Mayor que el 1000 del wrapper-bromas */
@@ -51,14 +49,13 @@
 }
 
 .texto-broma {
-    font-size: clamp(24px, 8vw, 42px); /* Mínimo 24px, escala con la pantalla, máximo 42px */
-    text-align: center;
-    width: 100%;
-    max-width: 50vw;
     color: white;
+    font-size: 5rem;
+    text-align: center;
     padding: 30px;
     user-select: none;
     text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+    max-width: 50vw;
 
     /* Animación: nombre | duración | suavidad | bucle infinito | va y vuelve */
     animation: flotarMistico 4s ease-in-out infinite alternate;
@@ -76,15 +73,5 @@
     100% {
         transform: translateY(-10px) scale(1.05);
         text-shadow: 0 20px 30px rgba(0,0,0,0.1);
-    }
-}
-
-@media (min-width: 768px) {
-    /* Ajustes para tablets */
-    .texto-broma {
-        font-size: 36px; /* Congelamos el tamaño en pantallas grandes */
-    }
-    .capa-cortina {
-        background-size: contain; /* Evita que se corten las puntas de las cortinas */
     }
 }
