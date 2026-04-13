@@ -9,20 +9,17 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-image: url('../resources/images/endState/cubreCortina.webp'); /* Tu dibujo de image_3.png */
-    background-size: cover;
+    width: 100%; /* Cambia vw por % para mejor compatibilidad */
+    height: 100%; /* Cambia vh por % */
+    background-image: url('../resources/images/endState/cubreCortina.webp');
+    
+    /* CAMBIO CLAVE: Cambiamos 'cover' por '100% 100%' */
+    background-size: 100% 100%; 
+    
     background-position: center;
     background-repeat: no-repeat;
-    
-    /* CAPA SUPERIOR */
-    z-index: 1100; /* Mayor que el 1000 del wrapper-bromas */
-    
-    /* EL SECRETO */
+    z-index: 1100;
     pointer-events: none; 
-    
-    /* Animación de salida */
     transition: opacity 1.5s ease-out, transform 1.5s ease-out;
 }
 
@@ -50,14 +47,17 @@
 
 .texto-broma {
     color: white;
-    font-size: 5rem;
+    /* Mínimo 24px, escala con el ancho (8vw), máximo 60px */
+    font-size: clamp(24px, 8vw, 40px); 
     text-align: center;
+    width: 60%;
     padding: 30px;
     user-select: none;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
-    max-width: 50vw;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+    
+    /* Ampliamos el max-width para que no se amontone el texto */
+    max-width: 80vw; 
 
-    /* Animación: nombre | duración | suavidad | bucle infinito | va y vuelve */
     animation: flotarMistico 4s ease-in-out infinite alternate;
 }
 
