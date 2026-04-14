@@ -1,201 +1,88 @@
-/* Posicionamiento */
-
-/* El contenedor padre debe cubrir toda la pantalla */
 #capa-ritual {
-    position: fixed; /* O fixed para que no se mueva */
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    position: fixed;
+    inset: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; /* Centra el ritual si la pantalla es muy ancha */
+    background: #000;
     overflow: hidden;
 }
 
-/* El contenedor interno donde ocurre la magia */
 .container {
     position: relative;
     width: 100%;
     height: 100%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-end; /* Todo nace desde abajo */
     align-items: center;
 }
 
-/* 1. La Mesa (Capa de fondo) */
-/* Ajustamos la mesa para que sea el punto de referencia real */
-.mesa {
-    position: absolute;
-    bottom: 0;
+/* 1. EL ANCLA: El wrapper ahora escala pero nunca desborda el alto */
+.mesa-wrapper {
+    position: relative;
     width: 100vw;
-    height: 100vh; /* Mantiene el tamaño del asset original */
-    pointer-events: none;
+    /* La fórmula para que el wrapper no sea más alto que la pantalla */
+    max-width: calc(100vh * (720 / 1610)); 
+    aspect-ratio: 720 / 1610; 
+    margin: 0 auto; /* Lo centra si la pantalla es muy ancha */
+    z-index: 1;
 }
 
 .base-mesa {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Asegura que la imagen no se deforme */
-    object-position: bottom; /* Empuja el dibujo hacia abajo */
-}
-
-.mesa img {
-    width: 100vw; /* Que ocupe todo el ancho para que la base sea estable */
-    max-width: none; 
-    height: auto;
     display: block;
+    pointer-events: none;
 }
 
-/* 2. El Septagrama (Encima de la mesa) */
-.septagrama {
-    position: absolute;
-    z-index: 2;
-    bottom: 15%; /* Ajusta este % hasta que quede centrado en tu dibujo de mesa */
-}
-
-.septagrama img {
-    width: 280px;
-    opacity: 0.6;
-}
-
-/* CREAMOS UN CONTENEDOR NUEVO 
-   Este contenedor solo cubrirá el área de la madera (aprox. el 40% inferior)
-*/
+/* 2. LOS OBJETOS (Ahora son relativos al wrapper, no a la pantalla) */
+/* 2. EL MAPA: Ocupa exactamente el mismo tamaño que la imagen */
 .objetos {
     position: absolute;
-    bottom: 5%;
-    left: 0;
-    width: 100%;
-    height: 25%; /* Reducimos el área de colisión solo a la madera */
+    inset: 0; /* Cubre desde el pixel (0,0) hasta el final de la imagen */
     z-index: 3;
-    border: 2px solid red;
 }
 
 .objetos img {
     position: absolute;
     height: auto;
-    /* Suavizamos el renderizado de los dibujos */
-    image-rendering: auto;
-    filter: drop-shadow(0 5px 5px rgba(0,0,0,0.4));
+    /* Usamos % de ancho para que se achiquen en pantallas chicas */
 }
 
-/* COORDINADAS PRECISAS (Basadas en tu imagen objetivo) */
+/* 3. POSICIONAMIENTO REAL (Calculado sobre el asset 720x1610) */
+/* Ajustá estos % para que pisen la madera de tu dibujo */
 
-/* Izquierda Superior (Silla y Mueble) */
-.tl img:nth-child(1) { bottom: 60%; left: 12%; width: 40px; } 
-.tl img:nth-child(2) { bottom: 75%; left: 25%; width: 55px; } 
+.silla   { bottom: 25%; left: 15%; width: 6%; }
+.mueble  { bottom: 27%; left: 25%; width: 10%; }
 
-/* Derecha Superior (Vaso y Velas) */
-.tr img:nth-child(1) { bottom: 55%; right: 10%; width: 60px; } 
-.tr img:nth-child(2) { bottom: 80%; right: 30%; width: 80px; } 
+.vaso    { bottom: 25%; right: 12%; width: 14%; }
+.velas   { bottom: 27%; right: 32%; width: 22%; }
 
-/* Izquierda Inferior (Bolso y Espejo) */
-.bl img:nth-child(1) { bottom: 10%; left: 8%; width: 130px; } 
-.bl img:nth-child(2) { bottom: 25%; left: 22%; width: 35px; } 
+.bolso   { bottom: 12%; left: 6%; width: 35%; }
+.espejo  { bottom: 8%; left: 18%; width: 14%; }
 
-/* Derecha Inferior (Libros) */
-.br img:nth-child(1) { bottom: 15%; right: 12%; width: 120px; }
+.libros  { bottom: 8%; right: 10%; width: 38%; }
 
-/* Posicionamos las imágenes dentro de cada corner */
-.corner img {
-    position: absolute;
-    height: auto;
-}
-
-/* Septagrama centrado en el medio de la madera */
+/* 4. SEPTAGRAMA: También relativo al wrapper */
 .septagrama {
     position: absolute;
-    bottom: 8%; /* Ajustado al centro visual del dibujo */
-    left: 50%;
+    bottom: 6%; 
+    left: 53%;
     transform: translateX(-50%);
+    width: 66%;
     z-index: 2;
 }
-.septagrama img {
-    width: 400px;
-    opacity: 1;
-}
+.septagrama img { width: 100%; height: auto; }
 
-/* 4. La Barra de Carga (Al frente de todo) */
+/* 4. LA BARRA DE CARGA
+   La posicionamos respecto a la pantalla para que no se mueva 
+   si la mesa se achica mucho.
+*/
 .loadbar {
     position: absolute;
-    bottom: 25%; 
-    width: 200px;
-    height: 4px;
+    bottom: 25%;
+    width: 250px;
+    height: 6px;
     z-index: 10;
-}
-
-
-
-
-
-
-
-/*
-
-    .loadbar{
-        opacity: 1;
-        position: relative;
-        height: 50px;
-        width: 300px;
-        border: 4px solid whitesmoke;
-        background-color: rgba(0, 0, 0, 0.5);
-        overflow: hidden;
-
-        animation-delay: 3s;
-        transition: transform 0.3s ease, opacity 5s ease;
-
-        user-select: none;
-        -webkit-user-select: none;
-        -webkit-touch-callout: none;
-        touch-action: none;
-    }
-
-    .loadbar .load{
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        background-color: yellow;
-
-        transform: translateX(var(--progress, -100%));
-        transition: transform 5s ease;
-    }
-
-    .load-wrapper{
-        height: 100%;
-        width: 100%;
-    }
-
-    .loading{
-        animation: shake 0.08s infinite;
-    }
-
-    .unloading{
-        animation: shake 0.2s infinite;
-    }
-
-/* Obstaculos
-
-    .corner{
-        opacity: 1;
-        position: absolute;
-        width: 100px;
-        height: 100px;
-        background: rgba(255, 255, 255, 0.8);
-
-        transition: opacity 2s ease, transform 1s ease;
-    }
-
-    .corner.hide{
-        opacity: 0;
-        transform: scale(0.6);
-    }
-
-@keyframes shake{
-    0%   { transform: translate(0px,0px) }
-    20%  { transform: translate(-2px,1px) }
-    40%  { transform: translate(2px,-1px) }
-    60%  { transform: translate(-1px,-2px) }
-    80%  { transform: translate(1px,2px) }
-    100% { transform: translate(0px,0px) }
 }
