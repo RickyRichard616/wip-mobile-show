@@ -4,7 +4,6 @@
     display: flex;
     justify-content: center;
     align-items: center; /* Centra el ritual si la pantalla es muy ancha */
-    background: #000;
     overflow: hidden;
 }
 
@@ -37,7 +36,6 @@
 }
 
 /* 2. LOS OBJETOS (Ahora son relativos al wrapper, no a la pantalla) */
-/* 2. EL MAPA: Ocupa exactamente el mismo tamaño que la imagen */
 .objetos {
     position: absolute;
     inset: 0; /* Cubre desde el pixel (0,0) hasta el final de la imagen */
@@ -47,8 +45,12 @@
 .objetos img {
     position: absolute;
     height: auto;
-    /* Usamos % de ancho para que se achiquen en pantallas chicas */
+    /* Suavizamos la reacción a los cambios de opacidad del JS */
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity, transform;
 }
+
 
 /* 3. POSICIONAMIENTO REAL (Calculado sobre el asset 720x1610) */
 /* Ajustá estos % para que pisen la madera de tu dibujo */
@@ -64,7 +66,7 @@
 
 .libros  { bottom: 8%; right: 10%; width: 38%; }
 
-/* 4. SEPTAGRAMA: También relativo al wrapper */
+/* 4. SEPTAGRAMA: Ajuste para el "Soft Landing" */
 .septagrama {
     position: absolute;
     bottom: 6%; 
@@ -72,17 +74,129 @@
     transform: translateX(-50%);
     width: 66%;
     z-index: 2;
+    /* Evitamos saltos de layout durante la vibración */
+    will-change: transform, filter, opacity; 
+    transition: filter 2s ease-out, transform 2s ease-out, opacity 1s ease;
 }
-.septagrama img { width: 100%; height: auto; }
 
-/* 4. LA BARRA DE CARGA
-   La posicionamos respecto a la pantalla para que no se mueva 
-   si la mesa se achica mucho.
-*/
+.septagrama img { 
+    width: 100%; 
+    height: auto; 
+    /* CLAVE: Cuando la animación termina, vuelve a su estado normal en 2 segundos */
+    will-change: transform, filter, opacity;
+    transition: filter 2s ease-out, transform 2s ease-out, opacity 1s ease;
+}
+
+
+/* --- LA BARRA DE CARGA (Interfaz) --- */
+
+/* Contenedor principal de la barra */
 .loadbar {
     position: absolute;
-    bottom: 25%;
-    width: 250px;
-    height: 6px;
-    z-index: 10;
+    /* La ubicamos en el tercio inferior de la pantalla, 
+       donde el usuario suele apoyar el pulgar naturalmente. */
+    bottom: 50%; 
+    left: 50%;
+    transform: translateX(-50%); /* Centrado horizontal perfecto */
+    
+    /* Dimensiones responsivas */
+    width: 70%; /* Ocupa buena parte del ancho en móviles */
+    max-width: 300px; /* No se hace gigante en tablets */
+    height: 30px; /* Un grosor cómodo para ver la carga */
+    
+    /* Estilo visual místico */
+    background: rgba(20, 20, 20, 0.8); /* Fondo oscuro casi opaco */
+    border: 2px solid #eeba30; /* Borde dorado místico */
+    border-radius: 6px; /* Esquinas suavizadas */
+    
+    /* Efectos de brillo dorados */
+    box-shadow: 0 0 100px rgba(238, 186, 48, 0.3), /* Brillo sutil externo */
+                inset 0 0 105px rgba(0, 0, 0, 0.5); /* Sombra interna para profundidad */
+    
+    overflow: hidden; /* Importante para que el relleno no se salga */
+    z-index: 100; /* Asegura que esté por encima de la mesa y objetos */
+    
+    /* Preparación para la interacción (cursor, etc.) */
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+/* Efecto visual cuando el usuario pasa el mouse o presiona */
+.loadbar:active {
+    transform: translateX(-50%) scale(0.98); /* Pequeña pulsación visual */
+    box-shadow: 0 0 20px rgba(238, 186, 48, 0.5); /* Aumenta el brillo */
+}
+
+/* --- LÓGICA DE MOVIMIENTO DE LA BARRA --- */
+.load { 
+    width: 100%; /* El contenedor siempre es 100% */
+    height: 100%;
+    background: linear-gradient(90deg, #b8860b, #eeba30, #b8860b);
+    box-shadow: 0 0 15px #eeba30;
+    
+    /* EL SECRETO: Empezamos la barra fuera de vista a la izquierda (-100%) */
+    /* Usamos una variable de CSS que el JS modificará */
+    transform: translateX(var(--progress, -100%)); 
+    
+    /* Definimos una transición base */
+    transition: transform 0.1s linear; 
+}
+
+/* Cuando el JS detecta que estás presionando, añade esta clase: */
+.loading .load {
+    /* La velocidad a la que "carga" el ritual (10 segundos) */
+    transition: transform 10s linear; 
+}
+
+/* Cuando el JS detecta que soltaste, añade esta clase: */
+.unloading .load {
+    /* La velocidad a la que se "vacía" la barra al soltar (2 segundos) */
+    transition: transform 2s ease-out; 
+}
+
+/* Animación de "vibración" de la barra mientras carga */
+@keyframes shake {
+    0% { transform: translateX(-50%) translate(1px, 1px); }
+    50% { transform: translateX(-50%) translate(-1px, -2px); }
+    100% { transform: translateX(-50%) translate(1px, -1px); }
+}
+
+.loading {
+    animation: shake 0.2s infinite;
+    border-color: #fff; /* Brilla más al cargar */
+    box-shadow: 0 0 20px rgba(238, 186, 48, 0.6);
+}
+
+/* --- EFECTOS DRAMÁTICOS DE FINALIZACIÓN --- */
+
+/* Vibración violenta para toda la pantalla */
+.vibracion-extrema {
+    animation: shake-violento 0.1s infinite;
+}
+
+@keyframes shake-violento {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(4px, 4px) rotate(0.5deg); }
+    50% { transform: translate(-4px, -2px) rotate(-0.5deg); }
+    75% { transform: translate(-2px, 4px) rotate(0deg); }
+    100% { transform: translate(2px, -4px) rotate(0.5deg); }
+}
+
+/* Septagrama en éxtasis (Animación violenta) */
+.septagrama-activo{
+    animation: brillo-violento 0.2s infinite alternate;
+    /* Forzamos que el brillo sea muy fuerte durante la animación */
+    filter: drop-shadow(0 0 40px #fff) brightness(1.2) !important;
+}
+
+@keyframes brillo-violento {
+    from {
+        transform: translateX(-50%) scale(1);
+        filter: drop-shadow(0 0 20px #eeba30);
+    }
+    to {
+        transform: translateX(-50%) scale(1.1);
+        filter: drop-shadow(0 0 60px #fff);
+    }
+}
+

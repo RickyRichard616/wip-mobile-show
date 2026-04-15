@@ -1,132 +1,126 @@
-
 /*
-    Esperamos al primer frame post carga del html
-    para cargar el js
+    INTRO.JS - Versión Consolidada
 */
-function initApp(){
-    document.body.classList.add("app-ready");
-}
-window.addEventListener("load", () => {
-    requestAnimationFrame(initApp);
-    console.log("nice");
-});
 
-/*
-    Funcionalidad de la barra de carga
-    preparada para mobile
-*/
 const loadbar = document.querySelector(".loadbar");
 const load = document.querySelector(".load");
+const mesaWrapper = document.querySelector('.mesa-wrapper');
+const septagramaImg = document.querySelector('.septagrama img');
+
+let objetosList = []; 
 let timeout = null;
 let isComplete = false;
 
-// Evitar el menu contextual al hacer click
-loadbar.addEventListener("contextmenu", (e) => {
-    e.preventDefault();
-});
-loadbar.addEventListener("touchstart", (e) => {
-    e.preventDefault();
-}, { passive: false });
-
-// comenzar a cargar
-loadbar.addEventListener("pointerdown", (e) => {
-    e.preventDefault();
-
-    timeout = "full"
-
+// 1. INICIO DE PRESIÓN
+window.addEventListener("pointerdown", (e) => {
+    if (isComplete) return;
+    e.preventDefault(); 
+    timeout = "full";
     loadbar.classList.remove("unloading");
     loadbar.classList.add("loading");
-
     load.style.setProperty("--progress", "0%");
 });
 
-// dejar de cargar
+// 2. DETENCIÓN
 function stopLoading() {
     if (isComplete) return;
-    timeout = "empty"
-
+    timeout = "empty";
     loadbar.classList.remove("loading");
     loadbar.classList.add("unloading");
-
     load.style.setProperty("--progress", "-100%");
 }
-loadbar.addEventListener("pointerup", stopLoading);
-loadbar.addEventListener("pointerleave", stopLoading);
 
-// Detectar el final de cada animacion de la barra
-// y acabar con la vibracion o desaparecer la barra
+window.addEventListener("pointerup", stopLoading);
+window.addEventListener("pointerleave", stopLoading);
+window.addEventListener("touchend", stopLoading);
+
+// 3. LA COREOGRAFÍA FINAL (Único evento transitionend)
 load.addEventListener("transitionend", (e) => {
     if (e.propertyName !== "transform") return;
 
-    if (timeout === "full"){
-        console.log("Carga completa");
+    if (timeout === "full" && !isComplete) {
         isComplete = true;
-
-        loadbar.classList.remove("loading");
+        
+        // A. Activamos el caos (Vibración de pantalla y Septagrama)
+        document.body.classList.add("vibracion-extrema");
+        if(septagramaImg) {
+            septagramaImg.parentElement.classList.add("septagrama-activo");
+        }
+        
+        // Limpiamos la UI de carga
+        loadbar.style.transition = "opacity 0.5s ease";
         loadbar.style.opacity = "0";
+        loadbar.style.pointerEvents = "none";
 
-        //cambiar a las cartas
-        setTimeout(() => {finalizarRitual();},10000);
-    }else if (timeout === "empty") {
-        console.log("Carga vacia");
+        // B. El Clímax (Esperamos 1.8 segundos de vibración)
+        setTimeout(() => {
+            // Detenemos la vibración del cuerpo
+            document.body.classList.remove("vibracion-extrema");
+            
+            // Quitamos la clase de animación del septagrama. 
+            // Gracias al CSS 'transition' que pusimos, el brillo bajará suavemente.
+            if(septagramaImg) {
+                septagramaImg.parentElement.classList.remove("septagrama-activo");
+                septagramaImg.style.filter = "drop-shadow(0 0 15px rgba(238, 186, 48, 0.4))";
+            }
 
+            // C. Aparición de las cartas sobre la mesa
+            const capaTarot = document.getElementById('capa-tarot');
+            if (capaTarot) {
+                // 1. Primero mostramos el contenedor
+                capaTarot.classList.add("visible"); 
+                console.log("activa");
+                
+                // 2. No hace falta hacer mucho más, el CSS con los nth-child 
+                // se encarga de que aparezcan una tras otra automáticamente.
+            }
+
+        }, 1800); 
+
+    } else if (timeout === "empty") {
         loadbar.classList.remove("unloading");
     }
 });
 
-// Obtener progreso de la barra de carga
-function getProgress() {
-    const style = getComputedStyle(load);
-    const matrix = new DOMMatrixReadOnly(style.transform);
-
-    const x = matrix.m41; // posición actual
-    const width = load.offsetWidth;
-
-    // x va de -width → 0
-    const progress = 1 + (x / width);
-
-    return Math.min(Math.max(progress, 0), 1);
-}
-
-// Leer esquinas
-const corners = {
-    tl: document.querySelector(".tl"),
-    tr: document.querySelector(".tr"),
-    bl: document.querySelector(".bl"),
-    br: document.querySelector(".br"),
-};
-
-// Preparar ocultado de esquinas
-function toggleCorner(el, condition) {
-    if (condition) {
-        el.classList.add("hide");
-    } else {
-        el.classList.remove("hide");
-    }
-}
-
-// Ocultar esquinas progresivamente
-function updateCorners(p) {
-    toggleCorner(corners.tl, p > 0.25);
-    toggleCorner(corners.tr, p > 0.50);
-    toggleCorner(corners.bl, p > 0.75);
-    toggleCorner(corners.br, p >= 1);
-}
-
-// Loop de actualizacion
+// 4. LOOP DE ACTUALIZACIÓN
 function update() {
     const p = getProgress();
 
-    updateCorners(p);
+    // El septagrama gana opacidad mientras cargamos
+    if (septagramaImg && !isComplete) {
+        septagramaImg.style.opacity = 0.3 + (p * 0.7);
+    }
 
+    // Desaparición progresiva de objetos
+    objetosList.forEach((obj, index) => {
+        const threshold = (index / objetosList.length) * 0.85;
+        if (p > threshold) {
+            obj.style.opacity = "0";
+            obj.style.transform = "scale(0.8) translateY(-20px)";
+        } else {
+            obj.style.opacity = "1";
+            obj.style.transform = "scale(1) translateY(0)";
+        }
+    });
+    
+    if (!isComplete) {
+        requestAnimationFrame(update);
+    }
+}
+
+// 5. UTILIDADES
+function getProgress() {
+    const style = window.getComputedStyle(load);
+    const matrix = new DOMMatrixReadOnly(style.transform);
+    const totalWidth = loadbar.offsetWidth;
+    if (totalWidth === 0) return 0;
+    const currentX = matrix.m41; 
+    return Math.min(Math.max(1 + (currentX / totalWidth), 0), 1);
+}
+
+function iniciarRitual() {
+    objetosList = document.querySelectorAll('.objetos img');
     requestAnimationFrame(update);
 }
 
-// Ejecucion del loop que monitorea la carga
-update();
-
-//funcion que ejecutar para pasar a las cartas
-function finalizarRitual() {
-    // Al terminar la última cortina, avisamos al sistema
-    document.dispatchEvent(new CustomEvent('comenzarTarot'));
-}
+iniciarRitual();
