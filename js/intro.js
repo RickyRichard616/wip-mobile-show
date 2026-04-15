@@ -61,7 +61,8 @@ load.addEventListener("transitionend", (e) => {
             // Gracias al CSS 'transition' que pusimos, el brillo bajará suavemente.
             if(septagramaImg) {
                 septagramaImg.parentElement.classList.remove("septagrama-activo");
-                septagramaImg.style.filter = "drop-shadow(0 0 15px rgba(238, 186, 48, 0.4))";
+                septagramaImg.parentElement.classList.add("septagrama-activo-chill");
+                septagramaImg.style.filter = "drop-shadow(0 0 40px #fff)";
             }
 
             // C. Aparición de las cartas sobre la mesa
@@ -88,12 +89,12 @@ function update() {
 
     // El septagrama gana opacidad mientras cargamos
     if (septagramaImg && !isComplete) {
-        septagramaImg.style.opacity = 0.3 + (p * 0.7);
+        septagramaImg.style.opacity = 0 + (p * 1);
     }
 
     // Desaparición progresiva de objetos
     objetosList.forEach((obj, index) => {
-        const threshold = (index / objetosList.length) * 0.85;
+        const threshold = ((index + 1) / objetosList.length) * 0.80;
         if (p > threshold) {
             obj.style.opacity = "0";
             obj.style.transform = "scale(0.8) translateY(-20px)";
