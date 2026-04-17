@@ -71,6 +71,8 @@
 /* Contenedor principal de la barra */
 .loadbar {
     position: absolute;
+    opacity: 0;
+
     /* La ubicamos en el tercio inferior de la pantalla, 
        donde el usuario suele apoyar el pulgar naturalmente. */
     bottom: 50%; 
@@ -96,7 +98,17 @@
     
     /* Preparación para la interacción (cursor, etc.) */
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 5s ease;
+}
+
+.loadbar.visible{
+    opacity: 1;
+    /*animation: aparecer 4s ease;*/
+}
+
+@keyframes aparecer{
+    0% { opacity: 0; }
+    100% { opacity: 1; }
 }
 
 /* Efecto visual cuando el usuario pasa el mouse o presiona */

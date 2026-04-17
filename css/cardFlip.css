@@ -73,7 +73,8 @@
     flex-direction: column;
     
     /* EL SECRETO DE LA PROFUNDIDAD: */
-    perspective: 1200px; 
+    perspective: 1500px;
+    transform-style: preserve-3d;
     opacity: 0;
     pointer-events: none;
     transition: opacity 2s ease;
@@ -85,9 +86,11 @@
 }
 
 .contenedor-carta {
+    opacity: 0;
     width: 30%;
     height: 100%;
     margin: 0 10px;
+    pointer-events: none;
     filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
     
     /* 3. Rotación positiva en X la inclina hacia el fondo.
@@ -104,8 +107,10 @@
 /* Animación cuando se vuelven visibles */
 #capa-tarot.visible .contenedor-carta {
     opacity: 1;
+    pointer-events: all;
     /* Al final, la carta queda acostada (rotateX) pero apoyada (translateY 0) */
     transform: translateZ(0) translateY(0) rotateX(25deg); 
+    animation: entregarCarta 3s cubic-bezier(0.25,1,0.5,1) forwards;
 }
 
 /* Delays para el efecto de reparto ritual */
@@ -159,4 +164,24 @@
     filter: blur(0px);
     color: #fff; /* Brillo final */
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+}
+
+
+/* 1. Definimos la trayectoria de "entrega" */
+@keyframes entregarCarta {
+    0% {
+        opacity: 0;
+        /* La carta viene desde arriba y "atrás" de la pantalla (fuera de vista) */
+        transform: translateY(-100vh) translateZ(500px) rotateX(-90deg) rotateZ(20deg);
+    }
+    60% {
+        opacity: 1;
+        /* Punto de impacto: llega a la mesa pero con un pequeño rebote */
+        transform: translateY(0) translateZ(0) rotateX(30deg) rotateZ(0deg);
+    }
+    100% {
+        opacity: 1;
+        /* Reposo final sobre la mesa */
+        transform: translateY(0) translateZ(0) rotateX(25deg);
+    }
 }

@@ -38,3 +38,33 @@ body, html {
   font-weight: 700;
   font-style: italic;
 }
+
+.narrativa-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: black; /* Fondo negro para que las cortinas desaparezcan hacia esto */
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.5s ease;
+}
+
+.narrativa-overlay.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+#texto-narrativa {
+    font-size: 1.5rem;
+    color: #f0e68c;
+    text-align: center;
+    max-width: 80%;
+    text-shadow: 0 0 15px rgba(238, 186, 48, 0.6);
+    transition: opacity 0.8s ease;
+}
