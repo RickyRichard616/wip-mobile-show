@@ -40,6 +40,7 @@
     touch-action: none;
     will-change: transform, opacity;
     /* Quitamos la transition de aquí, la manejaremos dinámicamente en JS */
+    transition: transform 2s ease, opacity 2s ease;
 }
 
 .capa-cortina.lanzada {

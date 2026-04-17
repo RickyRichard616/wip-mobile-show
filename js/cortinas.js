@@ -56,7 +56,7 @@ function actualizarCortina() {
             wrapper.style.display = 'none';
             estatica.style.display = 'none';
             finalizarCortinas(); //llamar ritual
-        },5000);
+        },4000);
     }
 }
 

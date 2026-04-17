@@ -106,10 +106,8 @@
 
 /* Animación cuando se vuelven visibles */
 #capa-tarot.visible .contenedor-carta {
-    opacity: 1;
     pointer-events: all;
     /* Al final, la carta queda acostada (rotateX) pero apoyada (translateY 0) */
-    transform: translateZ(0) translateY(0) rotateX(25deg); 
     animation: entregarCarta 3s cubic-bezier(0.25,1,0.5,1) forwards;
 }
 
