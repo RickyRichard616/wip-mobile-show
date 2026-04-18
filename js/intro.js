@@ -11,7 +11,7 @@ let timeout = null;
 let isComplete = false;
 
 const frasesIntro = [
-    "ADVERTENCIA: NINGUN ESPIRITU CHOCARRERO HA SIDO HERIDO DURANTE LA FILMACION DE ESTE SHOW PRIVADO, NO SE ACEPTAN DEVOLUCIONES Y POR FAVOR NO OLVIDEN CERRAR LA PUERTA ANTES DE SEGUIR VIENDO, LAS ENERGIAS DEBEN SER PURAS",
+    "ADVERTENCIA: LOS DIALOGOS SE PASAN SOLOS, MANTEN TU ATENCION A LOS MISMOS YA QUE PUEDE QUE SE ME HAYA PASADO LA MANO.. ESTE MENSAJE TAMBIEN SE PASARA POR SI SOLO EN BREVES",
     "Las fuerzas místicas te llaman, te atrajeron aquí...",
     "Siento un disturbio a tu alrededor.. \n\n/me toce",
     "..perdon por eso, ejem sigamos..",
@@ -24,11 +24,72 @@ const frasesMesa = [
 ];
 
 const frasesMonologo = [
-    { texto: "Ups parece que cayeron 3 cartas por accidente..", tiempo: 3000 },
+    //{ texto: "", tiempo: 3000 },
+    { texto: "El septagrama, adornado por los simbolos de los planetas, brilla con intensidad..", tiempo: 4000, accion: true},
+    { texto: "La sala entera vibra hasta que las energias se calman y cartas comienzan a flotar al rededor de la figura frente a ti..", tiempo: 7000, accion: true},
+    { texto: "Ella, completamente calmada mueve lentamente su mano para tomar una entre cientos de cartas danzando por el aire.", tiempo: 6000, accion: true},
+    { texto: "Veamos.. tu primera carta y la que representa tu esencia es...", tiempo: 4000 },
+    
+    { texto: "El Hermitaño, al derecho", tiempo: 6000 },
+    { texto: "Caminaste sola, acompañada unicamente por tu 'luz'", tiempo: 6000 },
+    { texto: "Necesitas tu propio espacio para permitirte existir..", tiempo: 6000 },
+    { texto: "Y tu luz te lo confiere, esa luz.. que es mas que suficiente", tiempo: 6000 },
+    { texto: "Guias con una bondad silenciosa, que acompaña; sin perseguir el protagonismo.", tiempo: 6000 },
+
+    { texto: "...una lectura curiosa, haz de haber pasado por tanto..", tiempo: 5000 },
+    { texto: "Su capucha se sobreexalta al ver tu reaccion de sorpresa (obvio que la tienes) y comienza a acariciar tu cabeza con incomodidad.", tiempo: 9000, accion: true},
+    { texto: "Ya, ya, no llores.. mantente fuerte como el hermitaño (en serio no llores que me voy a sentir muy culpable)", tiempo: 5000 },
+    { texto: "Entonces, ahora sigue tu presente y tu carta es..", tiempo: 4000 },
+    { texto: "Repite la misma frase muchas veces, pues cada vez que intenta tomar una carta, la misma lo esquiva como si estuviese a punto de cometer un error..", tiempo: 10000, accion: true},
+    { texto: "Hazta que finalmente una se deja atrapar.", tiempo:4000, accion: true},
+    
+    { texto: "La Fuerza, al derecho", tiempo: 6000 },
+    { texto: "Te mantienes firme ante el caos, lo das todo por ser un apoyo para el resto y para ti misma..", tiempo: 6000 },
+    { texto: "..y con bastante exito si me lo preguntas", tiempo: 6000 },
+    { texto: "Tu esfuerzo silencioso pasa por alto algunas miradas, si..", tiempo: 6000 },
+    { texto: "..pero nunca olvides que siempre existiran quienes te reconozcan, aunque no lo digan en voz alta.", tiempo: 6000 },
+
+    { texto: "Antes de continuar, la silueta encapuchada ladea un poco la cabeza mientras te observa detenidamente..", tiempo: 7000, accion: true},
+    { texto: "A pesar de su falta de rostro, sientes que sonrie calidamente..", tiempo: 4000, accion: true},
+    { texto: "Te parece oir, por momentos, como juega con sus manos bajo la mesa, quiza sea.. nerviosismo?", tiempo: 6000, accion: true},
+
+    { texto: "Admirable, las cartas no saben mentir; y ahora mismo estan delatando tu humildad, permitete disfrutar de lo que tienes.. ok?", tiempo: 9000 },
+    { texto: "Por ultimo vamos a revelar el consejo que mi universo tiene para ti", tiempo: 5000 },
+    { texto: "Y te toca...", tiempo: 6000 },
+    { texto: "(no es ese tipo de chiste, deja de reirte >:c)", tiempo: 3000, accion: true},
+
+    { texto: "La Estrella.. del derecho una vez mas", tiempo: 6000 },
+    { texto: "Esta carta te promete esperanza y sanacion, quiza no exitos materiales pero..", tiempo: 6000 },
+    { texto: "Si paz espiritual, un mensaje suave:", tiempo: 6000 },
+    { texto: "Eventualmente las aguas se calmaran, solo centrate en seguir tu estrella.", tiempo: 6000 },
+    { texto: "...", tiempo: 3000 },
+
+    { texto: "El Oraculo ordena sus cartas mientras mira en tu direccion, cuanto mas le sostienes la mirada..", tiempo: 6000, accion: true},
+    { texto: "Con mas torpeza ejecuta sus cortes y trucos extravagantes.", tiempo: 5000, accion: true},
+
+    { texto: "Okey creo que nos fue genial, puedes recoger tus cosas e irte", tiempo: 5000 },
+    { texto: "...", tiempo: 3000 },
+    { texto: "..o es que acaso esperabas mas? Que avariciosa chiquilla", tiempo: 5000 },
+    { texto: "PUES LARGATE DE MI VISTA O TE..", tiempo: 3000 },
+    { texto: "Se alza de su asiento bruscamente, empujando la mesa y causando que el mazo de cartas vuele por los aires..", tiempo: 7000, accion: true},
+    { texto: "*KNOCK*    *SWOOSH*    *FLAP FLAP FLAP*", tiempo: 3000, critico: true},
+    { texto: "Preocupado por mantener su imagen, el sujeto alza ambas manos y adopta una postura de boxeador", tiempo: 6000, accion: true},
+    { texto: "Comienza a lanzar veloces jabs que cortan el aire a medida que atrapa todas y cada una de sus cartas..", tiempo: 7000, accion: true},
+    { texto: "..Excepto tres.", tiempo: 6000, accion: true},
+
+    { texto: "Ups! parece que cayeron algunas cartas por accidente..", tiempo: 4000 },
     { texto: "NO LAS TOQUES", tiempo: 1500, critico: true },
-    { texto: "Quizá tratan de revelar algo más..", tiempo: 3000 },
+
+    { texto: "Velozmente toma una postura confiada y retoma su papel 'misterioso'.", tiempo: 6000, accion: true},
+
+    { texto: "Quizá tratan de revelar algo más..", tiempo: 4000 },
     { texto: "...", tiempo: 2000 },
-    { texto: "Ya, desvélalas de a poco..", tiempo: 3000 }
+
+    { texto: "Sigilosamente y con dedos tan rapidos como balas, el intercambia las bellisimas cartas de tarot..", tiempo: 9000, accion: true},
+    { texto: "(porfa creeme que si lo son, solo no me dio tiempo a hacerlas(?)", tiempo: 3000, accion: true},
+    { texto: "Por unas mas.. 'artesanales', claramente hechas sin mucha tecnica pero mucho esmero..", tiempo: 7000, accion: true},
+    { texto: "Entonces predica:", tiempo: 4000, accion: true},
+    { texto: "Ya, desvélalas poco a poco..", tiempo: 6000 }
 ];
 
 
@@ -96,7 +157,7 @@ async function iniciarSecuenciaNarrativa() {
     for (let frase of frasesIntro) {
         texto.textContent = frase;
         texto.style.opacity = 1;
-        await new Promise(r => setTimeout(r, 5500)); // Duración de la frase
+        await new Promise(r => setTimeout(r, 8000)); // Duración de la frase
         texto.style.opacity = 0;
         await new Promise(r => setTimeout(r, 1500)); // Pausa entre frases
     }
@@ -111,7 +172,7 @@ async function iniciarSecuenciaNarrativa() {
 
     // 4. Frases sobre la mesa
     // Reutilizamos el overlay pero con fondo transparente para que se vea la mesa detrás
-    overlay.style.background = "transparent";
+    overlay.style.background = "rgba(0,0,0,0.9)"; // Oscurecemos un poco la mesa para leer bien
     overlay.classList.add('visible');
 
     for (let frase of frasesMesa) {
@@ -138,7 +199,7 @@ async function iniciarMonologoFinal() {
     setTimeout(() => loadbar.style.display = "none", 1000);
 
     // 2. Preparamos el overlay (transparente para ver la mesa)
-    overlay.style.background = "rgba(0,0,0,0.3)"; // Oscurecemos un poco la mesa para leer bien
+    overlay.style.background = "rgba(0,0,0,0.9)"; // Oscurecemos un poco la mesa para leer bien
     overlay.classList.add('visible');
 
 // 3. Ejecutar el monólogo COMPLETO
@@ -151,10 +212,17 @@ async function iniciarMonologoFinal() {
         // Efectos visuales según la frase
         if (frase.critico) {
             texto.style.color = "#ff4444";
-            texto.style.transform = "scale(1.3)";
+            texto.style.textShadow = "0 0 15px rgba(71, 4, 4, 0.6)";
+            texto.style.transform = "scale(1.2)";
             document.body.classList.add("vibracion-media");
+        } else if (frase.accion){
+            texto.style.color = "#2FD42F";
+            texto.style.textShadow = "0 0 15px rgba(9, 94, 9, 0.6)";
+            texto.style.transform = "scale(1)";
+            document.body.classList.remove("vibracion-media");
         } else {
             texto.style.color = "#f0e68c";
+            texto.style.textShadow = "0 0 15px rgba(238, 186, 48, 0.6)";
             texto.style.transform = "scale(1)";
             document.body.classList.remove("vibracion-media");
         }
@@ -169,10 +237,10 @@ async function iniciarMonologoFinal() {
     
     // 4. EL MOMENTO CLAVE: Los diálogos terminaron.
     // Ahora el narrador se calla y las cartas caen.
-    overlay.classList.remove('visible'); // Quitamos el texto para no distraer
+    overlay.classList.remove('visible'); // Quitamos el fondo oscuro
 
     // Pequeña pausa de suspenso en silencio antes de las cartas
-    await new Promise(r => setTimeout(r, 3500)); 
+    await new Promise(r => setTimeout(r, 1000)); 
     
     // Disparamos la animación de las cartas
     capaTarot.classList.add("visible");
@@ -224,7 +292,7 @@ load.addEventListener("transitionend", (e) => {
                 septagramaImg.parentElement.classList.add("septagrama-activo-chill");
                 septagramaImg.style.filter = "drop-shadow(0 0 40px #fff)";
             }
-            
+
             iniciarMonologoFinal();
         }, 1500); 
 

@@ -35,6 +35,14 @@ function actualizarCortina() {
             cortina.style.backgroundSize = "cover";
             texto.innerText = bromas[indiceActual].texto;
             
+            if (indiceActual % 2 === 0){
+                texto.style.color = "#eeba30";
+                texto.style.textShadow = "2px 2px 5px rgba(0,0,0,1), 0 0 40px rgba(0,0,0,0.8)";
+            } else {
+                texto.style.color = "#1a1a1a";
+                texto.style.textShadow = "2px 2px 5px rgba(238, 186, 48,1), 0 0 40px rgba(238, 186, 48,0.8)";
+            }
+            
             // 3. Ahora que ya está en el centro, la hacemos aparecer suavemente
             cortina.style.transition = 'opacity 1s ease';
             cortina.style.opacity = 1;

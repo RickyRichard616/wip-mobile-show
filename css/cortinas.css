@@ -56,7 +56,6 @@
     width: 60%;
     padding: 30px;
     user-select: none;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
     
     /* Ampliamos el max-width para que no se amontone el texto */
     max-width: 80vw; 
@@ -71,10 +70,8 @@
 @keyframes flotarMistico {
     0% {
         transform: translateY(0) scale(1);
-        text-shadow: 0 5px 15px rgba(0,0,0,0.3);
     }
     100% {
         transform: translateY(-10px) scale(1.05);
-        text-shadow: 0 20px 30px rgba(0,0,0,0.1);
     }
 }
