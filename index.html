@@ -5,6 +5,7 @@
     <title>El Oráculo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!-- Fuente -->
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-thin-straight/css/uicons-thin-straight.css'>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
@@ -18,17 +19,27 @@
 
     <div id="app-container" class="escena-proporcion">
 
+        <div id="pantalla-inicio" class="overlay-inicio">
+            <div class="contenido-inicio">
+                <div>
+                    <h1>Bienvenida a "El Regalo"</h1>
+                    <p>Presiona en cualquier lugar para que robe tus biométricas (mentira)</p>
+                </div>
+                <i class="fi fi-ts-fingerprint"></i>
+            </div>
+        </div>
+
 
     <!-- AÑADIR PARTICULAS AL CURSOR, MUSICA Y MAS ANIMACIONES -->
         <section id="capa-cortinas">
             <div id="wrapper-bromas">
                 <div id="cortina-activa" class="capa-cortina">
-                    <h1 id="texto-broma" class="texto-broma almendra-regular-italic"></h1>
+                    <h1 id="texto-broma" class="texto-broma almendra-bold-italic"></h1>
                 </div>
             </div>
 
             <main id="mesa" style="display: none; opacity: 0;">
-                <h2 class="almendra-regular-italic" style="color: white; text-align: center; margin-top: 20vh;">Kora no sponsa no tenkio des, okurishi-mas</h2>
+                <h2 class="texto-post-cortina almendra-regular-italic">R.R. Productions<br><br><br>"Kora no sponsa no tenkio des<br><br> okurishi-mas"</h2>
             </main>
 
             <div id="cortina-estatica"></div>
@@ -63,8 +74,8 @@
                         </div>
                         <div class="cartas">
                                 <label class="contenedor-carta">
-                                    <input type="checkbox" class="carta-toggle" hidden>
-                                    <div class="carta">
+                                    <input type="checkbox" id="carta-1" class="carta-toggle" style="display: none;">
+                                    <label for="carta-1" class="carta">
                                         <div class="carta-interior">
                                             <div class="carta-frente">
                                                 <img src="resources/images/cartaReverso.webp">
@@ -73,12 +84,12 @@
                                                 <img src="resources/images/cartaFrente.webp">
                                             </div>
                                         </div>
-                                    </div>
+                                    </label>
                                 </label>
 
                                 <label class="contenedor-carta">
-                                    <input type="checkbox" class="carta-toggle" hidden>
-                                    <div class="carta">
+                                    <input type="checkbox" id="carta-2" class="carta-toggle" style="display: none;">
+                                    <label for="carta-2" class="carta">
                                         <div class="carta-interior">
                                             <div class="carta-frente">
                                                 <img src="resources/images/cartaReverso.webp">
@@ -87,12 +98,12 @@
                                                 <img src="resources/images/cartaFrente.webp">
                                             </div>
                                         </div>
-                                    </div>
+                                    </label>
                                 </label>
 
                                 <label class="contenedor-carta">
-                                    <input type="checkbox" class="carta-toggle" hidden>
-                                    <div class="carta">
+                                    <input type="checkbox" id="carta-3" class="carta-toggle" style="display: none;">
+                                    <label for="carta-3" class="carta">
                                         <div class="carta-interior">
                                             <div class="carta-frente">
                                                 <img src="resources/images/cartaReverso.webp">
@@ -101,10 +112,89 @@
                                                 <img src="resources/images/cartaFrente.webp">
                                             </div>
                                         </div>
-                                    </div>
+                                    </label>
                                 </label>
                             </div>
                     </section>
+                    <div class="contenedor-confeti">
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                        <div class="confeti"></div>
+                    </div>
                 </div>
 
                 <div class="loadbar">

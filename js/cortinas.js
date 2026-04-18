@@ -1,9 +1,9 @@
 const bromas = [
-    { texto: "Bienvenida a mi sorpresa! Esta tras la cortina~ \n\n- desliza -", color: "#eeba30" }, // Amarillo
-    { texto: "Ups, no recordaba tener 2 cortinas, animo! \n\nTu puedes con todo <3", color: "#1a1a1a" }, // Negro
-    { texto: "3..? \n\nSi tan solo te hubiera pedido ayuda decorando...", color: "#eeba30" },
-    { texto: "En serio una más?\n\nEsto ya parece gacha shino", color: "#1a1a1a" },
-    { texto: "Te juro, te prometo..\n\nQue es la última(?", color: "#eeba30" }
+    { texto: "¡Bienvenida a mi sorpresa! Está tras la cortina~\n\n- desliza -", color: "#eeba30" }, // Amarillo
+    { texto: "Ups, no recordaba tener 2 cortinas, ¡ánimo!\n\nTú puedes con todo <3", color: "#1a1a1a" }, // Negro
+    { texto: "¿3...?\n\nSi tan solo te hubiera pedido ayuda decorando...", color: "#eeba30" },
+    { texto: "¿En serio una más?\n\nEsto ya parece gacha chino", color: "#1a1a1a" },
+    { texto: "Te juro, te prometo...\n\nque es la última (¿?)", color: "#eeba30" }
 ];
 
 let indiceActual = 0;
@@ -23,6 +23,7 @@ const threshold = window.innerWidth * 0.4;
 // Inicializar la primera cortina
 function actualizarCortina() {
     if (indiceActual < bromas.length) {
+
         // 1. Quitamos transiciones para que el "salto" al centro sea instantáneo
         cortina.style.transition = 'none'; 
         cortina.style.opacity = 0; // Empieza invisible
@@ -37,10 +38,22 @@ function actualizarCortina() {
             
             if (indiceActual % 2 === 0){
                 texto.style.color = "#eeba30";
-                texto.style.textShadow = "2px 2px 5px rgba(0,0,0,1), 0 0 40px rgba(0,0,0,0.8)";
+                texto.style.textShadow = `
+                    2px 2px 0px #000, 
+                    -2px -2px 0px #000, 
+                    2px -2px 0px #000, 
+                    -2px 2px 0px #000, 
+                    0px 0px 30px rgba(0,0,0,1), 
+                    0px 0px 50px rgba(0,0,0,0.8)
+                `;
             } else {
                 texto.style.color = "#1a1a1a";
-                texto.style.textShadow = "2px 2px 5px rgba(238, 186, 48,1), 0 0 40px rgba(238, 186, 48,0.8)";
+                texto.style.textShadow = `
+                    1px 1px 2px #eeba30, 
+                    0px 0px 15px rgba(238, 186, 48, 0.9), 
+                    0px 0px 40px rgba(238, 186, 48, 0.7), 
+                    0px 0px 70px rgba(238, 186, 48, 0.5)
+                `;
             }
             
             // 3. Ahora que ya está en el centro, la hacemos aparecer suavemente
@@ -58,17 +71,19 @@ function actualizarCortina() {
 
         //mostrar el texto final
         mesa.style.display = 'block';
-        setTimeout(() => mesa.style.opacity = "1", 500);
+        setTimeout(() => {
+            document.dispatchEvent(new CustomEvent('musicaAmbiente'));
+            document.dispatchEvent(new CustomEvent('sponsorAd'));
+            mesa.style.opacity = "1";
+        }, 500);
 
         setTimeout(() => {
             wrapper.style.display = 'none';
             estatica.style.display = 'none';
             finalizarCortinas(); //llamar ritual
-        },4000);
+        },5000);
     }
 }
-
-actualizarCortina();
 
 cortina.addEventListener('pointerdown', (e) => {
     isDragging = true;
@@ -120,6 +135,7 @@ function lanzarCortina() {
     // Animacion de salida suave
     cortina.style.opacity = 0;
     cortina.classList.add('lanzada');
+    document.dispatchEvent(new CustomEvent('pasarCortinaSFX'));
 
     // La lanzamos hacia el lado que iba el arrastre
     const direccion = xActual > 0 ? 150 : -150;

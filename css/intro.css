@@ -216,3 +216,17 @@
     }
 }
 
+
+/* ARREGLO DE MENU CONTEXTUAL AL CARGAR LA BARRA */
+.objeto, .capa-ritual, .loadbar {
+    -webkit-user-select: none;   /* Safari */
+    -ms-user-select: none;       /* IE 10+ */
+    user-select: none;           /* Estándar */
+    -webkit-touch-callout: none; /* Bloquea el menú contextual en iOS */
+    -webkit-tap-highlight-color: transparent; /* Quita el cuadro azul al tocar en Android */
+}
+
+img {
+    pointer-events: none; /* Evita que las imágenes interfieran con los clicks del fondo */
+    -webkit-user-drag: none; /* Evita que el usuario "arrastre" la imagen */
+}
