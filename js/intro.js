@@ -11,8 +11,10 @@ let timeout = null;
 let isComplete = false;
 
 const frasesIntro = [
+    "ADVERTENCIA: NINGUN ESPIRITU CHOCARRERO HA SIDO HERIDO DURANTE LA FILMACION DE ESTE SHOW PRIVADO, NO SE ACEPTAN DEVOLUCIONES Y POR FAVOR NO OLVIDEN CERRAR LA PUERTA ANTES DE SEGUIR VIENDO, LAS ENERGIAS DEBEN SER PURAS",
     "Las fuerzas místicas te llaman, te atrajeron aquí...",
-    "Siento un disturbio a tu alrededor..",
+    "Siento un disturbio a tu alrededor.. \n\n/me toce",
+    "..perdon por eso, ejem sigamos..",
     "Desocupemos la mesa, dejaste muchas cosas la última vez..."
 ];
 
@@ -94,9 +96,9 @@ async function iniciarSecuenciaNarrativa() {
     for (let frase of frasesIntro) {
         texto.textContent = frase;
         texto.style.opacity = 1;
-        await new Promise(r => setTimeout(r, 3500)); // Duración de la frase
+        await new Promise(r => setTimeout(r, 5500)); // Duración de la frase
         texto.style.opacity = 0;
-        await new Promise(r => setTimeout(r, 1000)); // Pausa entre frases
+        await new Promise(r => setTimeout(r, 1500)); // Pausa entre frases
     }
 
     // 3. TRANSICIÓN A LA MESA
@@ -168,15 +170,12 @@ async function iniciarMonologoFinal() {
     // 4. EL MOMENTO CLAVE: Los diálogos terminaron.
     // Ahora el narrador se calla y las cartas caen.
     overlay.classList.remove('visible'); // Quitamos el texto para no distraer
-    
-    // Pequeña pausa de suspenso en silencio antes de las cartas
-    await new Promise(r => setTimeout(r, 500)); 
 
+    // Pequeña pausa de suspenso en silencio antes de las cartas
+    await new Promise(r => setTimeout(r, 3500)); 
+    
     // Disparamos la animación de las cartas
     capaTarot.classList.add("visible");
-
-    // 4. Finalizamos: ocultamos el overlay para dejar interactuar con las cartas
-    overlay.classList.remove('visible');
 }
 
 
@@ -225,16 +224,7 @@ load.addEventListener("transitionend", (e) => {
                 septagramaImg.parentElement.classList.add("septagrama-activo-chill");
                 septagramaImg.style.filter = "drop-shadow(0 0 40px #fff)";
             }
-
-            // C. Aparición de las cartas sobre la mesa
-            const capaTarot = document.getElementById('capa-tarot');
-            if (capaTarot) {
-                // 1. Primero mostramos el contenedor
-                capaTarot.classList.add("visible"); 
-                
-                // 2. No hace falta hacer mucho más, el CSS con los nth-child 
-                // se encarga de que aparezcan una tras otra automáticamente.
-            }
+            
             iniciarMonologoFinal();
         }, 1500); 
 
