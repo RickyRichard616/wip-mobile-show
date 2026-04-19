@@ -127,7 +127,9 @@ const frasesMonologo = [
     // --- ACTO 3: LA GRIETA EN LA FACHADA ---
     { texto: "La atmósfera se vuelve densa. El Oráculo parece detectar el peso de la lectura en ti y su postura solemne se altera.", tiempo: 8500, accion: true },
     { texto: "Su capucha se agita ligeramente, adelantandose a el posible asomo de una lágrima. Se inclina hacia adelante, rompiendo la distancia mística para ofrecer consuelo.", tiempo: 9500, accion: true, ruido: "chairSFX"},
-    { texto: "—Mantente fuerte como el Ermitaño —murmura, sus manos rozando tus hombros—. No permitas que el sistema colapse ahora.", tiempo: 8500, ruido: "rubSFX" },
+    { texto: "Mantente fuerte como el Ermitaño..", tiempo: 3000, ruido: "rubSFX" },
+    { texto: "Murmura, sus manos rozando tus hombros con cuidado.", tiempo: 3500, accion: true },
+    { texto: "No permitas que el sistema colapse, ok?", tiempo: 3000},
     
     // --- ACTO 4: LA FUERZA ---
     { texto: "Él retoma su posición original con rapidez, intentando restablecer el orden. Declara que el presente exige atención inmediata.", tiempo: 8000, accion: true },
@@ -156,11 +158,18 @@ const frasesMonologo = [
     // --- ACTO 7: EL COLAPSO DEL PERSONAJE ---
     { texto: "El Oráculo comienza a ordenar sus cartas con movimientos mecánicos, intentando recuperar el control de su propia imagen.", tiempo: 8500, accion: true, ruido: "shuffleSFX" },
     { texto: "Sin embargo, la torpeza se apodera de sus manos. Los cortes y trucos se vuelven erráticos ante la mirada del observador.", tiempo: 8000, accion: true, ruido: "cardTrickSFX" },
+    { texto: "Lo notas.. asustado de algo, quiza vio demasiado..", tiempo: 4500, accion: true },
+    { texto: "..el Oraculo observo tu alma..", tiempo: 3000, accion: true },
+    { texto: "..y teme que ya sea demasiado tarde para cerrar los ojos..", tiempo: 4500, accion: true },
+    { texto: "Aquellos ojos ocultos, cuyas pupilas se dilatan en tu presencia..", tiempo: 4500, accion: true },
+    { texto: "Ojos que delatan.", tiempo: 1500, accion: true },
 
-    { texto: "La sesión ha concluido. Puedes recoger tus cosas y retirarte antes de que la mística se disuelva.", tiempo: 8500 },
     { texto: "...", tiempo: 3000 },
-    { texto: "Ante la falta de movimiento de quien escucha, su paciencia parece quebrarse definitivamente.", tiempo: 6500, accion: true },
-    { texto: "¡SI NO TE ALEJAS AHORA YO..!", tiempo: 4000 },
+    { texto: "La sesión ha concluido.. Puedes recoger tus cosas y retirarte antes de que la mística se disuelva.", tiempo: 8500 },
+    { texto: "...", tiempo: 3000 },
+    { texto: "Ante la falta de movimiento de quien escucha, el pavor intoxica sus venas.", tiempo: 6500, accion: true },
+    { texto: "Ehh..", tiempo: 1500 },
+    { texto: "¡LA SESION SE ACABO!", tiempo: 2500, critico: true },
     { texto: "Se levanta bruscamente, volcando la mesa. El mazo de cartas sale disparado, estallando en un caos de cartón sobre ambos...", tiempo: 9000, accion: true, ruido: "mesaSFX" },
     { texto: "*CRASH* *SWOOSH* *FLAP FLAP FLAP*", tiempo: 3500, critico: true, ruido: "cardsFlySFX" },
     
@@ -173,11 +182,12 @@ const frasesMonologo = [
     { texto: "¡Eh..el protocolo se ha roto!. ¡No las toques! ¡No las mires!", tiempo: 5500, critico: true },
     { texto: "Acomoda su silla e intenta recuperar la compostura, aunque el rastro del desastre es imposible de ignorar.", tiempo: 8000, accion: true, ruido: "chairSFX" },
 
-    { texto: "Quizá el caos era necesario.. Quizá estas cartas revelan más que todo el discurso previo.", tiempo: 7500 },
+    { texto: "Quizá el caos era necesario.. Quizá estas cartas revelan algo mas", tiempo: 7500 },
 
-    { texto: "Con dedos que aún tiemblan, intercambia las bellas cartas de tarot por unas notablemente distintas...", tiempo: 9000, accion: true, ruido: "shuffleSFX" },
+    { texto: "Duda por un momento..", tiempo: 2000, accion: true },
+    { texto: "Pero con dedos que aún tiemblan, intercambia las bellas cartas de tarot por unas notablemente distintas...", tiempo: 9000, accion: true, ruido: "shuffleSFX" },
     { texto: "Pide disculpas por la falta de técnica, alegando que el hardware es limitado pero el proceso de creación fue honesto. (NotaAutor: creeme porfa(?))", tiempo: 8500, accion: true },
-    { texto: "Entrega tres cartas artesanales, hechas con esmero pero sin trucos.", tiempo: 9000, accion: true, ruido: "shuffleSFX" },
+    { texto: "Entrega tres cartas artesanales, hechas con esmero, sin trucos.", tiempo: 9000, accion: true, ruido: "shuffleSFX" },
     { texto: "Él da un paso atrás y aguarda en silencio a que las cartas sean descubiertas, una a una.", tiempo: 7500, accion: true },
     { texto: "Ya no hay guion que seguir..", tiempo: 4000, accion: true },
     { texto: "..no?", tiempo: 3000, accion: true }
@@ -390,18 +400,18 @@ async function iniciarMonologoFinal() {
     // REPRODUCIR SONIDO DE ENTREGAR CARTAS SINCRONIZADO
     // Primer sonido a los 1000ms (1s)
     setTimeout(() => {
-        document.dispatchEvent(new CustomEvent('pickCardSFX'));
-    }, 1000);
+        document.dispatchEvent(new CustomEvent('turnCardSFX'));
+    }, 100);
 
     // Segundo sonido a los 2000ms (2s)
     setTimeout(() => {
-        document.dispatchEvent(new CustomEvent('pickCardSFX'));
-    }, 2000);
+        document.dispatchEvent(new CustomEvent('turnCardSFX'));
+    }, 150);
 
     // Tercer sonido a los 3000ms (3s)
     setTimeout(() => {
-        document.dispatchEvent(new CustomEvent('pickCardSFX'));
-    }, 3000);
+        document.dispatchEvent(new CustomEvent('turnCardSFX'));
+    }, 200);
 }
 
 
@@ -466,6 +476,7 @@ load.addEventListener("transitionend", (e) => {
         loadbar.classList.remove("unloading");
     }
 });
+
 // SOLUCION AL MENU CONTEXTUAL
 zonaRitual.addEventListener('contextmenu', (e) => {
     e.preventDefault(); // Adiós al menú contextual

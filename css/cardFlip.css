@@ -115,18 +115,17 @@
     touch-action: manipulation; /* Evita que el navegador espere a ver si haces zoom */
 }
 
+/* Delays para el efecto de reparto ritual */
+.contenedor-carta:nth-child(1) { animation-delay: 1s; }
+.contenedor-carta:nth-child(2) { animation-delay: 2s; }
+.contenedor-carta:nth-child(3) { animation-delay: 3s; }
+
 /* Animación cuando se vuelven visibles */
 #capa-tarot.visible .contenedor-carta {
     pointer-events: all;
     /* Al final, la carta queda acostada (rotateX) pero apoyada (translateY 0) */
     animation: entregarCarta 3s cubic-bezier(0.25,1,0.5,1) forwards;
 }
-
-/* Delays para el efecto de reparto ritual */
-.contenedor-carta:nth-child(1) { animation-delay: 1s; }
-.contenedor-carta:nth-child(2) { animation-delay: 2s; }
-.contenedor-carta:nth-child(3) { animation-delay: 3s; }
-
 
 /* MENSAJE */
 
@@ -167,14 +166,14 @@
     filter: blur(0px);
 }
 
-/* 3. Si las TRES cartas están volteadas -> Revela etapa 3 (Final) */
+/* --- 3. Revelar Texto Etapa 3 (Final) --- */
 #capa-tarot:has(.contenedor-carta:nth-child(1) .carta-toggle:checked):has(.contenedor-carta:nth-child(2) .carta-toggle:checked):has(.contenedor-carta:nth-child(3) .carta-toggle:checked) .etapa-3 {
     opacity: 1;
     filter: blur(0px);
-    color: #fff; /* Brillo final */
+    color: #fff; 
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    transition: all 2s ease; /* Para que el brillo entre suave */
 }
-
 
 /* 1. Definimos la trayectoria de "entrega" */
 @keyframes entregarCarta {
@@ -211,7 +210,12 @@
 
 /* --- 2. LÓGICA DE ACTIVACIÓN CON :HAS() --- */
 /* Si las tres cartas están volteadas, mostramos el contenedor */
-#capa-tarot:has(.contenedor-carta:nth-child(1) .carta-toggle:checked):has(.contenedor-carta:nth-child(2) .carta-toggle:checked):has(.contenedor-carta:nth-child(3) .carta-toggle:checked) .contenedor-confeti {
+#capa-tarot:has(.contenedor-carta:nth-child(1) .carta-toggle:checked):has(.contenedor-carta:nth-child(2) .carta-toggle:checked):has(.contenedor-carta:nth-child(3) .carta-toggle:checked) + .contenedor-confeti {
+    opacity: 1;
+}
+
+/* Esto asegura que una vez que se activó, el confeti no se detenga aunque cambies las cartas */
+#capa-tarot.final-alcanzado + .contenedor-confeti {
     opacity: 1;
 }
 

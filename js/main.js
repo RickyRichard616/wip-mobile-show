@@ -1,31 +1,24 @@
-document.addEventListener('comenzarRitual', () => {
-    document.getElementById('capa-cortinas').style.transition='opacity 2s ease';
-    document.getElementById('capa-cortinas').style.opacity='0';
-    // Aquí puedes disparar una función de barra-carga.js si la necesitas
-
-    // Ejemplo: cuando termina la animación de la última cortina
-    setTimeout(() => {
-            iniciarSecuenciaNarrativa(); 
-        },3000);
-});
-
-// Funcion para voltear las cartas al final
-const carta = document.querySelector(".contenedor-carta");
-carta.addEventListener('pointerdown', (e) => {
-    // Esto unifica click de mouse, dedo de tablet y lápiz
-    voltearCarta(e.currentTarget);
-    // sonido de voltear carta
-    turnCardSFX.currentTime = 0;
-    turnCardSFX.play();
-});
-
 //-----------------------------------------------
 // MUSICA
 //-----------------------------------------------
 
+const configAudio = {
+    musicaAmbiente: 0.05,
+    musicaVals: 0.1,
+    rainSFX: 0.05,
+    sonidoConfeti: 0.4,
+    turnCardSFX: 0.5,
+    mesaSFX: 0.5,
+    magiaSFX: 0.6,
+    cardsFlySFX: 0.05,
+    chairSFX: 0.6,
+    rubSFX: 0.7
+};
+
 // --- MÚSICAS Y AMBIENTE ---
 const musicaAmbiente = new Audio('https://cdn.pixabay.com/audio/2024/03/19/audio_0926f80b30.mp3');
 musicaAmbiente.loop = true;
+musicaAmbiente.pause();
 
 const musicaVals = new Audio('https://cdn.pixabay.com/audio/2025/07/17/audio_a9b3fca004.mp3');
 musicaVals.loop = true;
@@ -54,149 +47,123 @@ const chairSFX = new Audio('https://cdn.pixabay.com/audio/2022/03/15/audio_74458
 const mesaSFX = new Audio('https://cdn.pixabay.com/audio/2022/03/25/audio_c4d761c6c3.mp3');
 
 
-
-// Funcion para iniciar musica
-function reproducir(music) {
-    music.volume = 0.5
-    music.currentTime = 0; // Opcional: vuelve al inicio
+// Funcion para reproducir
+function reproducirSonido(music, nombre) {
+    // Si existe una configuración para este sonido, la usa. Si no, usa 0.5 por defecto.
+    const volumenBase = configAudio[nombre] || 0.5;
+    
+    music.volume = volumenBase;
+    music.currentTime = 0; // Reinicia el audio por si se solapa
     music.play();
 }
 
-// Función para detener la música completamente
-function detenerMusica(music) {
-    music.pause();
-    music.currentTime = 0; // Opcional: vuelve al inicio
-}
-
-// Función para iniciar musica (desde 0 con fade)
-function iniciarMusicaLento(music) {
-    music.volume = 0;
-    music.play().catch(e => console.log("Error:", e));
-    const intervaloFade = setInterval(() => {
-        if (music.volume < 0.45) {
-            music.volume += 0.05;
-        } else {
-            music.volume = 0.5;
-            clearInterval(intervaloFade);
-        }
-    }, 100);
-}
-
-// Función para detener musica (con fade hasta 0)
-function desvanecerYDetenerMusica(music) {
-    const intervaloFade = setInterval(() => {
-        if (music.volume > 0.05) {
-            music.volume -= 0.05;
-        } else {
-            clearInterval(intervaloFade);
-            music.pause();
-            music.currentTime = 0;
-            music.volume = 0.5; // Reset para la próxima vez
-        }
-    }, 100);
-}
-
-function toggleMusicaLento(music) {
+function toggleMusicaLento(music, nombre) {
+    const volumenObjetivo = configAudio[nombre] || 0.5;
+        // Si el audio está pausado, lo iniciamos con volumen 0 y hacemos fade-in
     if (music.paused) {
-        iniciarMusicaLento(music);
+        music.volume = 0;
+        music.play().catch(e => console.log("Error:", e));
+        const intervaloFade = setInterval(() => {
+            if (music.volume < volumenObjetivo) {
+                music.volume += 0.025;
+            } else {
+                music.volume = volumenObjetivo;
+                clearInterval(intervaloFade);
+            }
+        }, 100);
     } else {
-        desvanecerYDetenerMusica(music);
-    }
-}
-
-// Función para pausar/reanudar (Toggle)
-function toggleMusicaLento(music) {
-    if (music.paused){
-        iniciarMusicaLento(music);
-    } else {
-        desvanecerYDetenerMusica(music);
+        const intervaloFade = setInterval(() => {
+            if (music.volume > volumenObjetivo) {
+                music.volume -= 0.025;
+            } else {
+                clearInterval(intervaloFade);
+                music.pause();
+                music.currentTime = 0;
+                music.volume = 0.5; // Reset para la próxima vez
+            }
+        }, 100);
     }
 }
 
 // --- LÓGICA DE EVENTOS ---
 
-document.addEventListener('musicaAmbiente', () => toggleMusicaLento(musicaAmbiente));
-document.addEventListener('musicaVals', () => toggleMusicaLento(musicaVals));
-document.addEventListener('rainSFX', () => toggleMusicaLento(rainSFX));
+document.addEventListener('musicaAmbiente', () => toggleMusicaLento(musicaAmbiente, 'musicaAmbiente'));
+document.addEventListener('musicaVals', () => toggleMusicaLento(musicaVals, 'musicaVals'));
+document.addEventListener('rainSFX', () => toggleMusicaLento(rainSFX, 'rainSFX'));
 
 document.addEventListener('itemSFX', () => {
     itemSFX.currentTime = 0;
-    itemSFX.play();
+    reproducirSonido(itemSFX, 'itemSFX');
 });
 
 document.addEventListener('magiaSFX', () => {
     magiaSFX.currentTime = 0;
-    magiaSFX.play();
+    reproducirSonido(magiaSFX, 'magiaSFX');
 });
 
 document.addEventListener('pickCardSFX', () => {
     pickCardSFX.currentTime = 0;
-    pickCardSFX.play();
-});
-
-document.addEventListener('SFX', () => {
-    SFX.currentTime = 0;
-    SFX.play();
+    reproducirSonido(pickCardSFX, 'pickCardSFX');
 });
 
 document.addEventListener('pasarCortinaSFX', () => {
     pasarCortinaSFX.currentTime = 0;
-    pasarCortinaSFX.play();
+    reproducirSonido(pasarCortinaSFX, 'pasarCortinaSFX');
 });
 
 document.addEventListener('sponsorAd', () => {
     sponsorAd.currentTime = 0;
-    iniciarMusicaLento(sponsorAd); // Si quieres que entre suave
+    toggleMusicaLento(sponsorAd,'sponsorAd'); // Si quieres que entre suave
 });
 
 document.addEventListener('tosSFX', () => {
     tosSFX.currentTime = 0;
-    tosSFX.play();
+    reproducirSonido(tosSFX, 'tosSFX');
 });
 
 document.addEventListener('turnCardSFX', () => {
     turnCardSFX.currentTime = 0;
-    turnCardSFX.play();
+    reproducirSonido(turnCardSFX, 'turnCardSFX');
 });
 
-document.addEventListener('cardsFallsSFX', () => {
-    cardsFallsSFX.currentTime = 0;
-    cardsFallsSFX.play();
+document.addEventListener('cardsFallSFX', () => {
+    cardsFallSFX.currentTime = 0;
+    reproducirSonido(cardsFallSFX, 'cardsFallSFX');
 });
 
 document.addEventListener('shuffleSFX', () => {
     shuffleSFX.currentTime = 0;
-    shuffleSFX.play();
+    reproducirSonido(shuffleSFX, 'shuffleSFX');
 });
 
 document.addEventListener('cardsFlySFX', () => {
     cardsFlySFX.currentTime = 0;
-    cardsFlySFX.play();
+    reproducirSonido(cardsFlySFX, 'cardsFlySFX');
 });
 
 document.addEventListener('rubSFX', () => {
     rubSFX.currentTime = 0;
-    rubSFX.play();
+    reproducirSonido(rubSFX, 'rubSFX');
 });
 
 document.addEventListener('cardTrickSFX', () => {
     cardTrickSFX.currentTime = 0;
-    cardTrickSFX.play();
+    reproducirSonido(cardTrickSFX, 'cardTrickSFX');
 });
 
 document.addEventListener('seeFeetSFX', () => {
     seeFeetSFX.currentTime = 0;
-    seeFeetSFX.play();
+    reproducirSonido(seeFeetSFX, 'seeFeetSFX');
 });
 
 document.addEventListener('chairSFX', () => {
     chairSFX.currentTime = 0;
-    chairSFX.play();
+    reproducirSonido(chairSFX, 'chairSFX');
 });
 
 document.addEventListener('mesaSFX', () => {
     mesaSFX.currentTime = 0;
-    magiaSFX.play();
+    reproducirSonido(mesaSFX, 'mesaSFX');
 });
 
 //-------------------------------------------------------------------------------------------
@@ -211,17 +178,15 @@ const textoInicio = document.querySelector(".contenido-inicio");
 
 // Evento de inicio
 pantallaInicio.addEventListener('click', () => {
-    // A. Reproducir música (El navegador lo permite porque es un click del usuario)
-    toggleMusicaLento(musicaAmbiente);
-
-    // B. Esperar 1 segundo (1000ms) antes de quitar el fondo negro
+    toggleMusicaLento(musicaAmbiente, 'musicaAmbiente');
+    // Esperar 1 segundo (1000ms) antes de quitar el fondo negro
     //textoInicio.classList.add('oculto');
     textoInicio.style.transition= "opacity 2s ease";
     textoInicio.style.opacity = "0";
     setTimeout(() => {
         pantallaInicio.classList.add('oculto');
         
-        // 4. Una vez que el fondo negro se fue, iniciamos las cortinas
+        // Una vez que el fondo negro se fue, iniciamos las cortinas
         // (Podemos darle otros 500ms si queremos que el ojo se limpie)
         setTimeout(() => {
             actualizarCortina();
@@ -237,7 +202,8 @@ pantallaInicio.addEventListener('click', () => {
 const checkboxes = document.querySelectorAll('.carta-toggle');
 
 function reproducirConfeti() {
-    toggleMusicaLento(musicaAmbiente);
+    toggleMusicaLento(musicaVals);
+    toggleMusicaLento(rainSFX);
     toggleMusicaLento(sonidoConfeti);
 }
 
@@ -245,9 +211,29 @@ checkboxes.forEach(checkbox => {
     checkbox.addEventListener('change', () => {
         // Contamos cuántos checkboxes están marcados actualmente
         const marcados = document.querySelectorAll('.carta-toggle:checked').length;
+        // sonido de voltear carta
+        turnCardSFX.currentTime = 0;
+        turnCardSFX.play();
         if (marcados === 3) {
             reproducirConfeti();
+            // Agregamos una clase al padre para que el confeti sea independiente de los inputs
+            document.getElementById('capa-tarot').classList.add('final-alcanzado');
+            document.getElementById('capa-tarot').style.pointerEvents = "none";
         }
     });
 });
 //-------------------------------------------------------------------------------------------
+
+// SALIR DE CORTINAS
+
+//-------------------------------------------------------------------------------------------
+document.addEventListener('comenzarRitual', () => {
+    document.getElementById('capa-cortinas').style.transition='opacity 2s ease';
+    document.getElementById('capa-cortinas').style.opacity='0';
+    // Aquí puedes disparar una función de barra-carga.js si la necesitas
+
+    // Ejemplo: cuando termina la animación de la última cortina
+    setTimeout(() => {
+            iniciarSecuenciaNarrativa(); 
+        },3000);
+});
