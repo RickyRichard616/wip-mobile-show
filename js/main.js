@@ -14,11 +14,53 @@ const carta = document.querySelector(".contenedor-carta");
 carta.addEventListener('pointerdown', (e) => {
     // Esto unifica click de mouse, dedo de tablet y lápiz
     voltearCarta(e.currentTarget);
+    // sonido de voltear carta
+    turnCardSFX.currentTime = 0;
+    turnCardSFX.play();
 });
 
 //-----------------------------------------------
 // MUSICA
 //-----------------------------------------------
+
+// --- MÚSICAS Y AMBIENTE ---
+const musicaAmbiente = new Audio('https://cdn.pixabay.com/audio/2024/03/19/audio_0926f80b30.mp3');
+musicaAmbiente.loop = true;
+
+const musicaVals = new Audio('https://cdn.pixabay.com/audio/2025/07/17/audio_a9b3fca004.mp3');
+musicaVals.loop = true;
+
+const rainSFX = new Audio('https://cdn.pixabay.com/audio/2026/03/10/audio_c1db4d0201.mp3');
+rainSFX.loop = true;
+
+const sonidoConfeti = new Audio('https://cdn.pixabay.com/audio/2025/10/27/audio_fc19563f7b.mp3');
+sonidoConfeti.loop = true;
+
+// --- EFECTOS DE SONIDO (SFX) ---
+const pasarCortinaSFX = new Audio('https://cdn.pixabay.com/audio/2025/04/05/audio_bf3e6a2a8e.mp3');
+const sponsorAd = new Audio('https://www.myinstants.com/media/sounds/kono-bangumi-fast.mp3');
+const tosSFX = new Audio('https://cdn.pixabay.com/audio/2022/03/15/audio_f5a2f3258a.mp3');
+const itemSFX = new Audio('https://cdn.pixabay.com/audio/2025/09/20/audio_9a48e2700a.mp3');
+const magiaSFX = new Audio('https://cdn.pixabay.com/audio/2025/07/25/audio_134842825b.mp3');
+const pickCardSFX = new Audio('https://cdn.pixabay.com/audio/2022/03/10/audio_020fef8bae.mp3');
+const turnCardSFX = new Audio('https://cdn.pixabay.com/audio/2022/03/15/audio_e385f1aa0d.mp3');
+const cardsFallSFX = new Audio('https://cdn.pixabay.com/audio/2022/03/17/audio_bab2836fe3.mp3');
+const shuffleSFX = new Audio('https://cdn.pixabay.com/audio/2022/03/09/audio_8fc5a15946.mp3');
+const cardsFlySFX = new Audio('https://cdn.pixabay.com/audio/2025/02/25/audio_16119f408f.mp3');
+const rubSFX = new Audio('https://cdn.pixabay.com/audio/2022/03/17/audio_662facd5e2.mp3');
+const cardTrickSFX = new Audio('https://cdn.pixabay.com/audio/2022/03/15/audio_9e9c729082.mp3');
+const seeFeetSFX = new Audio('https://cdn.pixabay.com/audio/2022/03/10/audio_f13f4e8ae7.mp3');
+const chairSFX = new Audio('https://cdn.pixabay.com/audio/2022/03/15/audio_74458be212.mp3');
+const mesaSFX = new Audio('https://cdn.pixabay.com/audio/2022/03/25/audio_c4d761c6c3.mp3');
+
+
+
+// Funcion para iniciar musica
+function reproducir(music) {
+    music.volume = 0.5
+    music.currentTime = 0; // Opcional: vuelve al inicio
+    music.play();
+}
 
 // Función para detener la música completamente
 function detenerMusica(music) {
@@ -26,40 +68,39 @@ function detenerMusica(music) {
     music.currentTime = 0; // Opcional: vuelve al inicio
 }
 
-// Funcion para detener musica de a poco (Fade out)
-function desvanecerYDetenerMusica(music) {
-    music.volume = 0.5
+// Función para iniciar musica (desde 0 con fade)
+function iniciarMusicaLento(music) {
+    music.volume = 0;
+    music.play().catch(e => console.log("Error:", e));
     const intervaloFade = setInterval(() => {
-        if (music.volume > 0.4) {
-            music.volume -= 0.05; // Baja el volumen de a poco
+        if (music.volume < 0.45) {
+            music.volume += 0.05;
         } else {
-            // Cuando ya casi no se escucha, la detenemos
+            music.volume = 0.5;
+            clearInterval(intervaloFade);
+        }
+    }, 100);
+}
+
+// Función para detener musica (con fade hasta 0)
+function desvanecerYDetenerMusica(music) {
+    const intervaloFade = setInterval(() => {
+        if (music.volume > 0.05) {
+            music.volume -= 0.05;
+        } else {
             clearInterval(intervaloFade);
             music.pause();
-            music.volume = 0.5; // Lo reseteamos para la próxima vez
+            music.currentTime = 0;
+            music.volume = 0.5; // Reset para la próxima vez
         }
-    }, 100); // Se ejecuta cada 100ms
+    }, 100);
 }
 
-function iniciarMusicaLento(music){
-    music.volume = 0;
-    music.play();
-    const intervaloFade = setInterval(() => {
-        if (music.volume < 0.5) {
-            music.volume += 0.05; // Baja el volumen de a poco
-        } else {
-            // Dejamos de subir si alcanzamos el volumen deseado
-            clearInterval(intervaloFade);
-        }
-    }, 100); // Se ejecuta cada 100ms
-}
-
-// Función para pausar/reanudar (Toggle)
-function toggleMusica(music) {
-    if (music.paused){
-        music.play();
+function toggleMusicaLento(music) {
+    if (music.paused) {
+        iniciarMusicaLento(music);
     } else {
-        music.pause();
+        desvanecerYDetenerMusica(music);
     }
 }
 
@@ -72,56 +113,106 @@ function toggleMusicaLento(music) {
     }
 }
 
-// CUMPLEAÑOS FELIZ
-const sonidoConfeti = new Audio('https://cdn.pixabay.com/audio/2025/10/27/audio_fc19563f7b.mp3'); 
-// https://pixabay.com/music/special-occasions-happy-birthday-festive-music-414654/
-sonidoConfeti.loop = true;
-sonidoConfeti.volume = 0.5; // Ajustamos el volumen al 50%
+// --- LÓGICA DE EVENTOS ---
 
-const checkboxes = document.querySelectorAll('.carta-toggle');
+document.addEventListener('musicaAmbiente', () => toggleMusicaLento(musicaAmbiente));
+document.addEventListener('musicaVals', () => toggleMusicaLento(musicaVals));
+document.addEventListener('rainSFX', () => toggleMusicaLento(rainSFX));
 
-function reproducirConfeti() {
-    // Reiniciamos el audio por si acaso ya se estaba reproduciendo
-    sonidoConfeti.currentTime = 0; 
-    sonidoConfeti.play().catch(error => {
-        console.log("El navegador bloqueó el audio hasta que el usuario interactúe.");
-    });
-}
-
-checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', () => {
-        // Contamos cuántos checkboxes están marcados actualmente
-        const marcados = document.querySelectorAll('.carta-toggle:checked').length;
-
-        if (marcados === 3) {
-            reproducirConfeti();
-        }
-    });
+document.addEventListener('itemSFX', () => {
+    itemSFX.currentTime = 0;
+    itemSFX.play();
 });
 
+document.addEventListener('magiaSFX', () => {
+    magiaSFX.currentTime = 0;
+    magiaSFX.play();
+});
 
-// CORTINAS
-const musicaAmbiente = new Audio('https://cdn.pixabay.com/audio/2024/03/19/audio_0926f80b30.mp3');
-// https://pixabay.com/music/fantasy-dreamy-childrens-ways-of-the-wizard-197105/
-musicaAmbiente.loop = true; // Que no pare nunca
-musicaAmbiente.volume = 0.4; // Un poco más baja para que no opaque los diálogos
+document.addEventListener('pickCardSFX', () => {
+    pickCardSFX.currentTime = 0;
+    pickCardSFX.play();
+});
 
+document.addEventListener('SFX', () => {
+    SFX.currentTime = 0;
+    SFX.play();
+});
+
+document.addEventListener('pasarCortinaSFX', () => {
+    pasarCortinaSFX.currentTime = 0;
+    pasarCortinaSFX.play();
+});
+
+document.addEventListener('sponsorAd', () => {
+    sponsorAd.currentTime = 0;
+    iniciarMusicaLento(sponsorAd); // Si quieres que entre suave
+});
+
+document.addEventListener('tosSFX', () => {
+    tosSFX.currentTime = 0;
+    tosSFX.play();
+});
+
+document.addEventListener('turnCardSFX', () => {
+    turnCardSFX.currentTime = 0;
+    turnCardSFX.play();
+});
+
+document.addEventListener('cardsFallsSFX', () => {
+    cardsFallsSFX.currentTime = 0;
+    cardsFallsSFX.play();
+});
+
+document.addEventListener('shuffleSFX', () => {
+    shuffleSFX.currentTime = 0;
+    shuffleSFX.play();
+});
+
+document.addEventListener('cardsFlySFX', () => {
+    cardsFlySFX.currentTime = 0;
+    cardsFlySFX.play();
+});
+
+document.addEventListener('rubSFX', () => {
+    rubSFX.currentTime = 0;
+    rubSFX.play();
+});
+
+document.addEventListener('cardTrickSFX', () => {
+    cardTrickSFX.currentTime = 0;
+    cardTrickSFX.play();
+});
+
+document.addEventListener('seeFeetSFX', () => {
+    seeFeetSFX.currentTime = 0;
+    seeFeetSFX.play();
+});
+
+document.addEventListener('chairSFX', () => {
+    chairSFX.currentTime = 0;
+    chairSFX.play();
+});
+
+document.addEventListener('mesaSFX', () => {
+    mesaSFX.currentTime = 0;
+    magiaSFX.play();
+});
+
+//-------------------------------------------------------------------------------------------
+// PANTALLAS
+//-------------------------------------------------------------------------------------------
+
+// PANTALLA DE INICIO
+
+//-------------------------------------------------------------------------------------------
 const pantallaInicio = document.getElementById('pantalla-inicio');
 const textoInicio = document.querySelector(".contenido-inicio");
 
 // Evento de inicio
 pantallaInicio.addEventListener('click', () => {
     // A. Reproducir música (El navegador lo permite porque es un click del usuario)
-    musicaAmbiente.volume = 0;
-    musicaAmbiente.play().catch(error => console.log("Error audio:", error));
-
-    const intervaloFade = setInterval(() => {
-        if (musicaAmbiente.volume < 0.4) {
-            musicaAmbiente.volume += 0.005; // Sube el volumen de a poco
-        } else {
-            clearInterval(intervaloFade);
-        }
-    }, 100); // Se ejecuta cada 100ms
+    toggleMusicaLento(musicaAmbiente);
 
     // B. Esperar 1 segundo (1000ms) antes de quitar el fondo negro
     //textoInicio.classList.add('oculto');
@@ -138,61 +229,25 @@ pantallaInicio.addEventListener('click', () => {
 
     }, 2000);
 });
-document.addEventListener('musicaAmbiente', () => {
+//-------------------------------------------------------------------------------------------
+
+// CUMPLEAÑOS FELIZ FINAL
+
+//-------------------------------------------------------------------------------------------
+const checkboxes = document.querySelectorAll('.carta-toggle');
+
+function reproducirConfeti() {
     toggleMusicaLento(musicaAmbiente);
-});
+    toggleMusicaLento(sonidoConfeti);
+}
 
-// PASAR CORTINAS
-const pasarCortinaSFX = new Audio('https://cdn.pixabay.com/audio/2025/04/05/audio_bf3e6a2a8e.mp3');
-//https://cdn.pixabay.com/audio/2025/04/05/audio_bf3e6a2a8e.mp3
-pasarCortinaSFX.volume = 0.5;
-document.addEventListener('pasarCortinaSFX', () => {
-    pasarCortinaSFX.play().catch(error => console.log("Error audio:", error));
-});
-
-
-// SPONSOR JAPONES (guardado en Drive)
-const sponsorAd = new Audio('https://www.myinstants.com/media/sounds/kono-bangumi-fast.mp3');
-//https://www.myinstants.com/en/instant/sponsor-rpgtv-41282/
-sponsorAd.volume = 0;
-document.addEventListener('sponsorAd', () => {
-    sponsorAd.play().catch(error => console.log("Error audio:", error));
-    
-    const intervaloFade = setInterval(() => {
-        if (sponsorAd.volume < 0.8) {
-            sponsorAd.volume += 0.1; // Sube el volumen de a poco
-        } else {
-            clearInterval(intervaloFade);
+checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', () => {
+        // Contamos cuántos checkboxes están marcados actualmente
+        const marcados = document.querySelectorAll('.carta-toggle:checked').length;
+        if (marcados === 3) {
+            reproducirConfeti();
         }
-    }, 100); // Se ejecuta cada 100ms
+    });
 });
-
-
-// RUIDO TOS
-const tosSFX = new Audio('https://cdn.pixabay.com/audio/2025/11/01/audio_cfe5a52192.mp3');
-//https://pixabay.com/sound-effects/people-cough-429803/
-tosSFX.volume = 0.5;
-document.addEventListener('tosSFX', () => {
-    tosSFX.play().catch(error => console.log("Error audio:", error));
-});
-
-
-
-// VALS TRISTE/MELANCOLICO
-const musicaVals = new Audio('https://cdn.pixabay.com/audio/2025/07/17/audio_a9b3fca004.mp3');
-//https://cdn.pixabay.com/audio/2025/07/17/audio_a9b3fca004.mp3
-musicaVals.volume = 0.5;
-musicaVals.loop = true;
-document.addEventListener('musicaVals', () => {
-    toggleMusicaLento(musicaVals);
-});
-
-
-
-// LEVANTAR OBJETO
-const itemSFX = new Audio('https://cdn.pixabay.com/audio/2025/09/20/audio_9a48e2700a.mp3');
-//https://pixabay.com/sound-effects/film-special-effects-item-wind-swing-407575/
-itemSFX.volume = 0.5;
-document.addEventListener('itemSFX', () => {
-    itemSFX.play().catch(error => console.log("Error audio:", error));
-});
+//-------------------------------------------------------------------------------------------

@@ -95,6 +95,7 @@ cortina.addEventListener('pointerdown', (e) => {
     
     // Evita que el navegador intente "arrastrar" la imagen como archivo
     if (e.cancelable) e.preventDefault();
+    document.dispatchEvent(new CustomEvent('pasarCortinaSFX'));
 });
 
 window.addEventListener('pointermove', (e) => {
@@ -135,7 +136,6 @@ function lanzarCortina() {
     // Animacion de salida suave
     cortina.style.opacity = 0;
     cortina.classList.add('lanzada');
-    document.dispatchEvent(new CustomEvent('pasarCortinaSFX'));
 
     // La lanzamos hacia el lado que iba el arrastre
     const direccion = xActual > 0 ? 150 : -150;
