@@ -162,7 +162,7 @@ const frasesMonologo = [
     { texto: "Sin embargo, la torpeza se apodera de sus manos. Los cortes y trucos se vuelven erráticos ante la mirada del observador.", tiempo: 4000, accion: true, ruido: "cardTrickSFX" },
     { texto: "Lo notas.. asustado de algo, quiza vio demasiado..", tiempo: 2500, accion: true },
     { texto: "..el Oraculo observo tu alma..", tiempo: 1500, accion: true },
-    { texto: "..y teme que ya sea demasiado tarde paraapartar la mirada..", tiempo: 2500, accion: true },
+    { texto: "..y teme que ya sea demasiado tarde para apartar la mirada..", tiempo: 2500, accion: true },
     { texto: "Aquellos ojos, cuyas pupilas se dilatan en cuando te meces en la silla..", tiempo: 2500, accion: true },
     { texto: "Ojos que lo delatan.", tiempo: 1000, accion: true, musica: "musicaTensa" },
 
