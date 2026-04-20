@@ -66,8 +66,10 @@
 .texto-post-cortina{
     color: white;
     text-align: center;
-    margin-top: 30vh;
-    scale: 1.5; 
+    margin-top: 40vh;
+    scale: 1.2;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 #mesa {

@@ -1,5 +1,0 @@
-TAREAS PENDIENTES
-
-arreglar el bug de las cartas
-
-bajar volumen a el cards fly

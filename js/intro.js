@@ -11,22 +11,24 @@ let objetosList = [];
 let timeout = null;
 let isComplete = false;
 
+const btnSiguiente = document.getElementById('btn-siguiente');
+
 const frasesIntro = [ 
-    { texto: "ADVERTENCIA: LOS DIÁLOGOS SE PASAN SOLOS. MANTÉN TU ATENCIÓN A LOS MISMOS YA QUE PUEDE QUE SE ME HAYA PASADO LA MANO... ESTE MENSAJE TAMBIÉN SE PASARÁ POR SÍ SOLO EN BREVE.", duracion: 16000, musica: "musicaVals" },
-    { texto: "Las fuerzas místicas te llaman, te atrajeron aquí..", duracion: 5500, accion: true, ruido: "rainSFX"},
-    { texto: "..a pesar de la lluvia y el viento, llegaste a mi humilde hogar", accion: true, duracion: 5500},
-    { texto: "Una choza alejada de todo, en lo mas profundo del bosque", accion: true, duracion: 5500},
-    { texto: "Siento un disturbio cer..", duracion: 500, ruido: "rainSFX"},
-    { texto: "/me tose", duracion: 3000, musica: "musicaVals", ruido: "tosSFX"},
-    { texto: "...perdón por eso, ejem, sigamos...", accion: true, duracion: 4500},
-    { texto: "Siento un disturbio cerca, un desbalance..", duracion: 5000, musica: "musicaVals", ruido: "rainSFX"},
-    { texto: "..quiza sea duda o angustia", duracion: 3000},
-    { texto: "...", duracion: 2500},
-    { texto: "Y.. tu que haces aqui?", duracion: 3000},
-    { texto: "Crei que estabas.. ya entiendo, no digas nada, el tito Oraculo se encargara de ti, esta bien?", duracion: 8000},
-    { texto: "Tomate este te magico que obviamente sabe como tu te favorito y sigueme, te dare una lectura gratis~", duracion: 8000},
-    { texto: "Con suavidad toma tu mano y ambos cruzan el portal de madera vieja.", accion: true, duracion: 5500 },
-    { texto: "Desocupemos la mesa, dejaste muchas cosas aqui la última vez...", duracion: 6000 }
+    { texto: "ADVERTENCIA: En la esquina inferior derecha de la pantalla aparecera un mensaje invitandote a presionar la pantalla para pasar el dialogo", duracion: 3000, musica: "musicaVals" },
+    { texto: "Las fuerzas místicas te llaman, te atrajeron aquí..", duracion: 2000, accion: true, ruido: "rainSFX"},
+    { texto: "..a pesar de la lluvia y el viento, llegaste a mi humilde hogar", accion: true, duracion: 2000},
+    { texto: "Una choza alejada de todo, en lo mas profundo del bosque", accion: true, duracion: 2000},
+    { texto: "Siento un disturbio cer..", duracion: 500, ruido: "rainSFX", autom: true},
+    { texto: "/me tose", duracion: 1500, musica: "musicaVals", ruido: "tosSFX"},
+    { texto: "...perdón por eso, ejem, sigamos...", accion: true, duracion: 2500},
+    { texto: "Siento un disturbio cerca, un desbalance..", duracion: 2500, musica: "musicaVals", ruido: "rainSFX"},
+    { texto: "..quiza sea duda o angustia", duracion: 1800},
+    { texto: "...", duracion: 1200},
+    { texto: "Y.. tu que haces aqui?", duracion: 1800},
+    { texto: "Crei que estabas.. ya entiendo, no digas nada, el tito Oraculo se encargara de ti, esta bien?", duracion: 4000},
+    { texto: "Tomate este te magico que obviamente sabe como tu te favorito y sigueme, te dare una lectura gratis~", duracion: 4000},
+    { texto: "Con suavidad toma tu mano y ambos cruzan el portal de madera vieja.", accion: true, duracion: 3000 },
+    { texto: "Desocupemos la mesa, dejaste muchas cosas aqui la última vez...", duracion: 3000 }
 ];
 
 const frasesMesa = [
@@ -113,84 +115,84 @@ const frasesMonologo = [
 
 const frasesMonologo = [
     // --- ACTO 1: EL RITUAL ---
-    { texto: "El septagrama sobre la mesa comienza a pulsar con un brillo rítmico, proyectando sombras planetarias contra las paredes.", tiempo: 7500, accion: true },
-    { texto: "Una vibración sorda recorre la habitación. Las cartas se elevan en un remolino controlado, orbitando la figura encapuchada que preside la escena.", tiempo: 9500, accion: true, ruido: "magiaSFX" },
-    { texto: "El Oráculo extiende un brazo con precisión mecánica y captura una carta en el aire. Sus movimientos son lentos, casi ceremoniales.", tiempo: 8500, accion: true, ruido: "pickCardSFX" },
-    { texto: "El sistema ha arrojado la primera variable. Tu esencia, el núcleo que sostiene tu arquitectura.", tiempo: 7500 },
+    { texto: "El septagrama sobre la mesa comienza a pulsar con un brillo rítmico, proyectando sombras planetarias contra las paredes.", tiempo: 3500, accion: true },
+    { texto: "Una vibración sorda recorre la habitación. Las cartas se elevan en un remolino controlado, orbitando la figura encapuchada que preside la escena.", tiempo: 4500, accion: true, ruido: "magiaSFX" },
+    { texto: "El Oráculo extiende un brazo con precisión mecánica y captura una carta en el aire. Sus movimientos son lentos, casi ceremoniales.", tiempo: 4000, accion: true, ruido: "pickCardSFX" },
+    { texto: "El sistema ha arrojado la primera variable. Tu esencia, el núcleo que sostiene tu arquitectura.", tiempo: 3500 },
     
     // --- ACTO 2: EL ERMITAÑO ---
-    { texto: "La carta es revelada sobre el tapete con un movimiento firme: El Ermitaño, al derecho.", tiempo: 5000, accion: true, ruido: "turnCardSFX" },
-    { texto: "Has caminado sola, guiada por una luz que no depende de fuentes externas para brillar.", tiempo: 6000 },
-    { texto: "Necesitas tu propio espacio para permitirte existir, y tu luz personal es más que suficiente para iluminar ese vacío.", tiempo: 8000 },
-    { texto: "Tienes una presencia que acompaña sin buscar el protagonismo; una luz que opera, aun bajo el diluvio.", tiempo: 7500 },
+    { texto: "La carta es revelada sobre el tapete con un movimiento firme: El Ermitaño, al derecho.", tiempo: 2500, accion: true, ruido: "turnCardSFX" },
+    { texto: "Has caminado sola, guiada por una luz que no depende de fuentes externas para brillar.", tiempo: 3000 },
+    { texto: "Necesitas tu propio espacio para permitirte existir, y tu luz personal es más que suficiente para iluminar ese vacío.", tiempo: 4000 },
+    { texto: "Tienes una presencia que acompaña sin buscar el protagonismo; una luz que opera, aun bajo el diluvio.", tiempo: 3500 },
 
     // --- ACTO 3: LA GRIETA EN LA FACHADA ---
-    { texto: "La atmósfera se vuelve densa. El Oráculo parece detectar el peso de la lectura en ti y su postura solemne se altera.", tiempo: 8500, accion: true },
-    { texto: "Su capucha se agita ligeramente, adelantandose a el posible asomo de una lágrima. Se inclina hacia adelante, rompiendo la distancia mística para ofrecer consuelo.", tiempo: 9500, accion: true, ruido: "chairSFX"},
-    { texto: "Mantente fuerte como el Ermitaño..", tiempo: 3000, ruido: "rubSFX" },
-    { texto: "Murmura, sus manos rozando tus hombros con cuidado.", tiempo: 3500, accion: true },
-    { texto: "No permitas que el sistema colapse, ok?", tiempo: 3000},
+    { texto: "La atmósfera se vuelve densa. El Oráculo parece detectar el peso de la lectura en ti y su postura solemne se altera.", tiempo: 4000, accion: true },
+    { texto: "Su capucha se agita ligeramente, adelantandose a el posible asomo de una lágrima. Se inclina hacia adelante, rompiendo la distancia mística para ofrecer consuelo.", tiempo: 5000, accion: true, ruido: "chairSFX"},
+    { texto: "Mantente fuerte como el Ermitaño..", tiempo: 1800, ruido: "rubSFX" },
+    { texto: "Murmura, sus manos rozando tus hombros con cuidado.", tiempo: 2000, accion: true },
+    { texto: "No permitas que el sistema colapse, ok?", tiempo: 1800},
     
     // --- ACTO 4: LA FUERZA ---
-    { texto: "Él retoma su posición original con rapidez, intentando restablecer el orden. Declara que el presente exige atención inmediata.", tiempo: 8000, accion: true },
-    { texto: "Lanza la mano hacia el mazo danzante, pero las cartas parecen esquivar sus dedos con una agilidad casi caprichosa...", tiempo: 8500, accion: true, ruido: "cardsFlySFX" },
-    { texto: "Finalmente atrapa una entre cientos. La sujeta con firmeza, impidiendo que vuelva a escapar al flujo del aire.", tiempo: 7000, accion: true, ruido: "pickCardSFX" },
+    { texto: "Él retoma su posición original con rapidez, intentando restablecer el orden. Declara que el presente exige atención inmediata.", tiempo: 4000, accion: true },
+    { texto: "Lanza la mano hacia el mazo danzante, pero las cartas parecen esquivar sus dedos con una agilidad casi caprichosa...", tiempo: 4500, accion: true, ruido: "cardsFlySFX" },
+    { texto: "Finalmente atrapa una entre cientos. La sujeta con firmeza, impidiendo que vuelva a escapar al flujo del aire.", tiempo: 3500, accion: true, ruido: "pickCardSFX" },
     
-    { texto: "La Fuerza, al derecho.", tiempo: 4500, ruido: "turnCardSFX" },
-    { texto: "Te mantienes firme ante el caos. Actúas como el soporte estructural para el resto, y con un éxito indiscutible.", tiempo: 8500 },
-    { texto: "Aunque el esfuerzo pase desapercibido para la mayoría, siempre existirán quienes reconocem.. reconozcan tu fortaleza en silencio.", tiempo: 9000 },
+    { texto: "La Fuerza, al derecho.", tiempo: 2000, ruido: "turnCardSFX" },
+    { texto: "Te mantienes firme ante el caos. Actúas como el soporte estructural para el resto, y con un éxito indiscutible.", tiempo: 4000 },
+    { texto: "Aunque el esfuerzo pase desapercibido para la mayoría, siempre existirán quienes reconocem.. reconozcan tu fortaleza en silencio.", tiempo: 4500 },
 
     // --- ACTO 5: LA CONEXIÓN HUMANA ---
-    { texto: "El Oráculo ladea la cabeza, observando a su interlocutora con una fijeza que trasciende la oscuridad de su capucha.", tiempo: 8000, accion: true },
-    { texto: "A pesar del rostro oculto, se percibe la calidez de un gesto genuino. Sin embargo, un movimiento bajo la mesa rompe la ilusión mística...", tiempo: 8500, accion: true, ruido: "seeFeetSFX" },
-    { texto: "Sus pies se mueven con nerviosismo, buscando un contacto que se retrae justo antes de concretarse por un resto de decoro.", tiempo: 9000, accion: true },
+    { texto: "El Oráculo ladea la cabeza, observando a su interlocutora con una fijeza que trasciende la oscuridad de su capucha.", tiempo: 4000, accion: true },
+    { texto: "A pesar del rostro oculto, se percibe la calidez de un gesto genuino. Sin embargo, un movimiento bajo la mesa rompe la ilusión mística...", tiempo: 4500, accion: true, ruido: "seeFeetSFX" },
+    { texto: "Sus pies se mueven con nerviosismo, buscando un contacto que se retrae justo antes de concretarse por un resto de decoro.", tiempo: 4500, accion: true },
 
     // --- ACTO 6: LA ESTRELLA (EL CONSEJO) ---
-    { texto: "Admirable. Las cartas delatan una humildad que debería ser celebrada. Permítete disfrutar de lo que posees.", tiempo: 9000 },
-    { texto: "Anuncia que el universo ha reservado un último consejo para este encuentro.", tiempo: 6000, accion: true },
-    { texto: "Toma la última carta, aunque sus dedos parecen haber perdido parte de la seguridad robótica del inicio.", tiempo: 7000, accion: true, ruido: "pickCardSFX" },
+    { texto: "Admirable. Las cartas delatan una humildad que debería ser celebrada. Permítete disfrutar de lo que posees.", tiempo: 4500 },
+    { texto: "Anuncia que el universo ha reservado un último consejo para este encuentro.", tiempo: 3000, accion: true },
+    { texto: "Toma la última carta, aunque sus dedos parecen haber perdido parte de la seguridad robótica del inicio.", tiempo: 3500, accion: true, ruido: "pickCardSFX" },
 
-    { texto: "La Estrella... al derecho una vez más.", tiempo: 4500, ruido: "turnCardSFX" },
-    { texto: "Esta carta promete esperanza y sanación. El sistema se estabiliza; no busques triunfos materiales, busca paz espiritual.", tiempo: 9000 },
-    { texto: '"Eventualmente las aguas se calmarán. Para lograr todo lo que deseas, solo sigue tu propia estrella".', tiempo: 8000 , wiggle: true },
-    { texto: "El silencio se prolonga, permitiendo que el mensaje se asiente en el aire de la sala.", tiempo: 6000, accion: true },
+    { texto: "La Estrella... al derecho una vez más.", tiempo: 2000, ruido: "turnCardSFX" },
+    { texto: "Esta carta promete esperanza y sanación. El sistema se estabiliza; no busques triunfos materiales, busca paz espiritual.", tiempo: 4500 },
+    { texto: '"Eventualmente las aguas se calmarán. Para lograr todo lo que deseas, solo sigue tu propia estrella".', tiempo: 4000 , wiggle: true },
+    { texto: "El silencio se prolonga, permitiendo que el mensaje se asiente en el aire de la sala.", tiempo: 3000, accion: true },
 
     // --- ACTO 7: EL COLAPSO DEL PERSONAJE ---
-    { texto: "El Oráculo comienza a ordenar sus cartas con movimientos mecánicos, intentando recuperar el control de su propia imagen.", tiempo: 8500, accion: true, ruido: "shuffleSFX" },
-    { texto: "Sin embargo, la torpeza se apodera de sus manos. Los cortes y trucos se vuelven erráticos ante la mirada del observador.", tiempo: 8000, accion: true, ruido: "cardTrickSFX" },
-    { texto: "Lo notas.. asustado de algo, quiza vio demasiado..", tiempo: 4500, accion: true },
-    { texto: "..el Oraculo observo tu alma..", tiempo: 3000, accion: true },
-    { texto: "..y teme que ya sea demasiado tarde para cerrar los ojos..", tiempo: 4500, accion: true },
-    { texto: "Aquellos ojos ocultos, cuyas pupilas se dilatan en tu presencia..", tiempo: 4500, accion: true },
-    { texto: "Ojos que delatan.", tiempo: 1500, accion: true },
+    { texto: "El Oráculo comienza a ordenar sus cartas con movimientos mecánicos, intentando recuperar el control de su propia imagen.", tiempo: 4000, accion: true, ruido: "shuffleSFX", musica: "musicaVals" },
+    { texto: "Sin embargo, la torpeza se apodera de sus manos. Los cortes y trucos se vuelven erráticos ante la mirada del observador.", tiempo: 4000, accion: true, ruido: "cardTrickSFX" },
+    { texto: "Lo notas.. asustado de algo, quiza vio demasiado..", tiempo: 2500, accion: true },
+    { texto: "..el Oraculo observo tu alma..", tiempo: 1500, accion: true },
+    { texto: "..y teme que ya sea demasiado tarde paraapartar la mirada..", tiempo: 2500, accion: true },
+    { texto: "Aquellos ojos, cuyas pupilas se dilatan en cuando te meces en la silla..", tiempo: 2500, accion: true },
+    { texto: "Ojos que lo delatan.", tiempo: 1000, accion: true, musica: "musicaTensa" },
 
-    { texto: "...", tiempo: 3000 },
-    { texto: "La sesión ha concluido.. Puedes recoger tus cosas y retirarte antes de que la mística se disuelva.", tiempo: 8500 },
-    { texto: "...", tiempo: 3000 },
-    { texto: "Ante la falta de movimiento de quien escucha, el pavor intoxica sus venas.", tiempo: 6500, accion: true },
-    { texto: "Ehh..", tiempo: 1500 },
-    { texto: "¡LA SESION SE ACABO!", tiempo: 2500, critico: true },
-    { texto: "Se levanta bruscamente, volcando la mesa. El mazo de cartas sale disparado, estallando en un caos de cartón sobre ambos...", tiempo: 9000, accion: true, ruido: "mesaSFX" },
-    { texto: "*CRASH* *SWOOSH* *FLAP FLAP FLAP*", tiempo: 3500, critico: true, ruido: "cardsFlySFX" },
+    { texto: "...", tiempo: 1500 },
+    { texto: "La sesión ha concluido.. Puedes recoger tus cosas y retirarte antes de que la mística se disuelva.", tiempo: 4000 },
+    { texto: "...", tiempo: 1500 },
+    { texto: "Ante la falta de movimiento de quien escucha, el pavor intoxica sus venas.", tiempo: 3000, accion: true },
+    { texto: "Ehh..", tiempo: 1000 },
+    { texto: "¡LA SESION SE ACABO!", tiempo: 1200, critico: true },
+    { texto: "Se levanta bruscamente, volcando la mesa. El mazo de cartas sale disparado, estallando en un caos de cartón sobre ambos...", tiempo: 4500, accion: true, ruido: "mesaSFX" },
+    { texto: "*CRASH* *SWOOSH* *FLAP FLAP FLAP*", tiempo: 1800, critico: true, ruido: "cardsFlySFX" },
     
     // --- ACTO 8: LA VERDAD ARTESANAL ---
-    { texto: "En un intento desesperado por salvar su dignidad, el sujeto lanza golpes al aire, tratando de atrapar las cartas como un boxeador en pleno ring.", tiempo: 9000, accion: true , ruido: "cardsFlySFX" },
-    { texto: "Corre de un lado a otro, recuperando frenéticamente los naipes mientras su fachada de experto se desmorona por completo.", tiempo: 8500, accion: true },
+    { texto: "En un intento desesperado por salvar su dignidad, el sujeto lanza golpes al aire, tratando de atrapar las cartas como un boxeador en pleno ring.", tiempo: 4500, accion: true , ruido: "cardsFlySFX" },
+    { texto: "Corre de un lado a otro, recuperando frenéticamente los naipes mientras su fachada de experto se desmorona por completo.", tiempo: 4000, accion: true },
 
-    { texto: "Se detiene en seco. Tres cartas han quedado en el suelo, fuera de su alcance y de su control.", tiempo: 7000, accion: true, ruido: "cardsFallSFX" },
+    { texto: "Se detiene en seco. Tres cartas han quedado en el suelo, fuera de su alcance y de su control.", tiempo: 3500, accion: true, ruido: "cardsFallSFX" },
 
-    { texto: "¡Eh..el protocolo se ha roto!. ¡No las toques! ¡No las mires!", tiempo: 5500, critico: true },
-    { texto: "Acomoda su silla e intenta recuperar la compostura, aunque el rastro del desastre es imposible de ignorar.", tiempo: 8000, accion: true, ruido: "chairSFX" },
+    { texto: "¡Eh..el protocolo se ha roto!. ¡No las toques! ¡No las mires!", tiempo: 2800, critico: true, musica: "musicaTensa" },
+    { texto: "Acomoda su silla e intenta recuperar la compostura, aunque el rastro del desastre es imposible de ignorar.", tiempo: 4000, accion: true, musica: "musicaFinale" },
 
-    { texto: "Quizá el caos era necesario.. Quizá estas cartas revelan algo mas", tiempo: 7500 },
+    { texto: "Quizá el caos era necesario.. Quizá estas cartas revelan algo mas", tiempo: 3500 },
 
-    { texto: "Duda por un momento..", tiempo: 2000, accion: true },
-    { texto: "Pero con dedos que aún tiemblan, intercambia las bellas cartas de tarot por unas notablemente distintas...", tiempo: 9000, accion: true, ruido: "shuffleSFX" },
-    { texto: "Pide disculpas por la falta de técnica, alegando que el hardware es limitado pero el proceso de creación fue honesto. (NotaAutor: creeme porfa(?))", tiempo: 8500, accion: true },
-    { texto: "Entrega tres cartas artesanales, hechas con esmero, sin trucos.", tiempo: 9000, accion: true, ruido: "shuffleSFX" },
-    { texto: "Él da un paso atrás y aguarda en silencio a que las cartas sean descubiertas, una a una.", tiempo: 7500, accion: true },
-    { texto: "Ya no hay guion que seguir..", tiempo: 4000, accion: true },
-    { texto: "..no?", tiempo: 3000, accion: true }
+    { texto: "Duda por un momento..", tiempo: 1000, accion: true },
+    { texto: "Pero con dedos que aún tiemblan, intercambia las bellas cartas de tarot por unas notablemente distintas...", tiempo: 4500, accion: true, ruido: "shuffleSFX" },
+    { texto: "Pide disculpas por la falta de técnica, alegando que el hardware es limitado pero el proceso de creación fue honesto. (NotaAutor: creeme porfa(?))", tiempo: 4500, accion: true },
+    { texto: "Entrega tres cartas artesanales, hechas con esmero, sin trucos.", tiempo: 4500, accion: true, ruido: "shuffleSFX" },
+    { texto: "Él da un paso atrás y aguarda en silencio a que las cartas sean descubiertas, una a una.", tiempo: 3500, accion: true },
+    { texto: "Ya no hay guion que seguir..", tiempo: 2000, accion: true },
+    { texto: "..no?", tiempo: 1500, accion: true }
 ];
 
 
@@ -298,6 +300,10 @@ async function iniciarSecuenciaNarrativa() {
         
         // CAMBIO CLAVE: usamos la duración específica de cada frase
         await new Promise(r => setTimeout(r, fraseObj.duracion)); 
+
+        if (!fraseObj.autom){
+            await esperarClick();
+        }
         
         texto.style.opacity = 0;
         await new Promise(r => setTimeout(r, 1500)); 
@@ -319,7 +325,7 @@ async function iniciarSecuenciaNarrativa() {
     for (let frase of frasesMesa) {
         texto.textContent = frase;
         texto.style.opacity = 1;
-        await new Promise(r => setTimeout(r, 3000));
+        await new Promise(r => setTimeout(r, 5000));
         texto.style.opacity = 0;
         await new Promise(r => setTimeout(r, 1000));
     }
@@ -378,6 +384,8 @@ async function iniciarMonologoFinal() {
 
         // ESPERAR a que el usuario lea la frase
         await new Promise(r => setTimeout(r, frase.tiempo));
+
+        await esperarClick();
         
         // Ocultar frase antes de la siguiente
         texto.style.opacity = 0;
@@ -398,20 +406,29 @@ async function iniciarMonologoFinal() {
 
     
     // REPRODUCIR SONIDO DE ENTREGAR CARTAS SINCRONIZADO
-    // Primer sonido a los 1000ms (1s)
-    setTimeout(() => {
-        document.dispatchEvent(new CustomEvent('turnCardSFX'));
-    }, 100);
+    document.dispatchEvent(new CustomEvent('cardTrickSFX'));
+    
+}
 
-    // Segundo sonido a los 2000ms (2s)
-    setTimeout(() => {
-        document.dispatchEvent(new CustomEvent('turnCardSFX'));
-    }, 150);
+function esperarClick() {
+    return new Promise((resolve) => {
+        // Mostramos el indicador
+        btnSiguiente.classList.remove('siguiente-oculto');
+        btnSiguiente.classList.add('siguiente-visible');
 
-    // Tercer sonido a los 3000ms (3s)
-    setTimeout(() => {
-        document.dispatchEvent(new CustomEvent('turnCardSFX'));
-    }, 200);
+        // Función que resuelve la promesa y limpia el evento
+        function alHacerClick() {
+            btnSiguiente.classList.remove('siguiente-visible');
+            btnSiguiente.classList.add('siguiente-oculto');
+            
+            // Quitamos el listener para que no se acumulen
+            window.removeEventListener('click', alHacerClick);
+            resolve(); // Aquí es donde el código "despierta" y continúa
+        }
+
+        // Permitimos avanzar haciendo clic en cualquier parte de la pantalla
+        window.addEventListener('click', alHacerClick);
+    });
 }
 
 

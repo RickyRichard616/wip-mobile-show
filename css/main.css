@@ -42,6 +42,8 @@ body, html {
     text-align: center;
     color: #f0e68c;
     padding: 20px;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .contenido-inicio h1 {
@@ -124,6 +126,8 @@ body, html {
     max-width: 80%;
     text-shadow: 0 0 15px rgba(238, 186, 48, 0.6);
     transition: opacity 0.8s ease;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 /* ANIMACIONES */
@@ -139,4 +143,32 @@ body, html {
     60% { transform: translate(-1px, -1px) rotate(0deg); }
     80% { transform: translate(1px, 2px) rotate(-1deg); }
     100% { transform: translate(-1px, -2px) rotate(0deg); }
+}
+
+#btn-siguiente {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    color: #f0e68c;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: opacity 0.5s ease;
+    z-index: 1000;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    animation: flotar 2s infinite ease-in-out;
+}
+
+.siguiente-oculto {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.siguiente-visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+@keyframes flotar {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
 }

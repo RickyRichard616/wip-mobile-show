@@ -18,6 +18,7 @@
     position: relative;
     width: 100%;
     height: 100%;
+    z-index: 10;
     perspective: 1000px; /* 3D effect */
     display: block; /* Asegura que el label ocupe todo el espacio */
     cursor: pointer;
@@ -102,6 +103,8 @@
     height: 100%;
     margin: 0 10px;
     filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+    user-select: none;
+    -webkit-user-select: none;
     
     /* 3. Rotación positiva en X la inclina hacia el fondo.
        Acompañamos con un pequeño translateZ para darle "vuelo". */
@@ -132,6 +135,10 @@
 .mensaje {
     width: 80%;
     text-align: center;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    z-index: 1;
     margin-bottom: 20px;
     min-height: 100px; /* Evita saltos en el diseño al aparecer texto */
     color: #f0e68c; /* Dorado suave */
@@ -145,6 +152,7 @@
 .fragmento {
     opacity: 0;
     filter: blur(10px);
+    pointer-events: none;
     transition: all 1.5s ease;
     display: inline; /* Se unen como un solo párrafo */
     font-size: clamp(24px, 8vw, 40px); 

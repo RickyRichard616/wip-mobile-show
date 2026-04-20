@@ -23,6 +23,12 @@ musicaAmbiente.pause();
 const musicaVals = new Audio('https://cdn.pixabay.com/audio/2025/07/17/audio_a9b3fca004.mp3');
 musicaVals.loop = true;
 
+const musicaTensa = new Audio('https://cdn.pixabay.com/audio/2025/10/01/audio_6696a47e25.mp3');
+musicaTensa.loop = true;
+
+const musicaFinale = new Audio('https://cdn.pixabay.com/audio/2023/12/22/audio_21091ac9f1.mp3');
+musicaFinale.loop = true;
+
 const rainSFX = new Audio('https://cdn.pixabay.com/audio/2026/03/10/audio_c1db4d0201.mp3');
 rainSFX.loop = true;
 
@@ -89,6 +95,8 @@ function toggleMusicaLento(music, nombre) {
 
 document.addEventListener('musicaAmbiente', () => toggleMusicaLento(musicaAmbiente, 'musicaAmbiente'));
 document.addEventListener('musicaVals', () => toggleMusicaLento(musicaVals, 'musicaVals'));
+document.addEventListener('musicaTensa', () => toggleMusicaLento(musicaTensa, 'musicaTensa'));
+document.addEventListener('musicaFinale', () => toggleMusicaLento(musicaFinale, 'musicaFinale'));
 document.addEventListener('rainSFX', () => toggleMusicaLento(rainSFX, 'rainSFX'));
 
 document.addEventListener('itemSFX', () => {
@@ -175,10 +183,12 @@ document.addEventListener('mesaSFX', () => {
 //-------------------------------------------------------------------------------------------
 const pantallaInicio = document.getElementById('pantalla-inicio');
 const textoInicio = document.querySelector(".contenido-inicio");
+let wakeLock = null;
 
 // Evento de inicio
 pantallaInicio.addEventListener('click', () => {
     toggleMusicaLento(musicaAmbiente, 'musicaAmbiente');
+    activarMantenerPantallaEncendida();
     // Esperar 1 segundo (1000ms) antes de quitar el fondo negro
     //textoInicio.classList.add('oculto');
     textoInicio.style.transition= "opacity 2s ease";
@@ -194,34 +204,72 @@ pantallaInicio.addEventListener('click', () => {
 
     }, 2000);
 });
+
+// Mantener pantalla encendida
+async function activarMantenerPantallaEncendida() {
+    try {
+        // Solo funciona si el navegador lo soporta
+        if ('wakeLock' in navigator) {
+            wakeLock = await navigator.wakeLock.request('screen');
+            console.log("La pantalla se mantendrá encendida durante el ritual.");
+
+            // Si la pestaña se minimiza y vuelve, hay que re-activarlo
+            wakeLock.addEventListener('release', () => {
+                console.log("El bloqueo de pantalla fue liberado.");
+            });
+        }
+    } catch (err) {
+        console.error(`${err.name}, ${err.message}`);
+    }
+}
+
 //-------------------------------------------------------------------------------------------
 
 // CUMPLEAÑOS FELIZ FINAL
 
 //-------------------------------------------------------------------------------------------
 const checkboxes = document.querySelectorAll('.carta-toggle');
+let appFinalizo = false;
 
 function reproducirConfeti() {
-    toggleMusicaLento(musicaVals);
+    toggleMusicaLento(musicaFinale);
     toggleMusicaLento(rainSFX);
     toggleMusicaLento(sonidoConfeti);
 }
 
 checkboxes.forEach(checkbox => {
     checkbox.addEventListener('change', () => {
-        // Contamos cuántos checkboxes están marcados actualmente
         const marcados = document.querySelectorAll('.carta-toggle:checked').length;
-        // sonido de voltear carta
+        
+        // El sonido de la carta suena SIEMPRE que haya un cambio (interactividad)
         turnCardSFX.currentTime = 0;
         turnCardSFX.play();
-        if (marcados === 3) {
+
+        // El "Gran Final" solo ocurre una vez
+        if (marcados === 3 && !appFinalizo) {
+            appFinalizo = true; // Bloqueamos el paso inmediatamente
+            
             reproducirConfeti();
-            // Agregamos una clase al padre para que el confeti sea independiente de los inputs
+            
+            // Activamos visuales en CSS
             document.getElementById('capa-tarot').classList.add('final-alcanzado');
-            document.getElementById('capa-tarot').style.pointerEvents = "none";
+            
+            // Liberamos recursos de sistema
+            liberarPantalla();
+
+            console.log("Protocolo de finalización ejecutado.");
         }
     });
 });
+
+function liberarPantalla() {
+    if (wakeLock !== null) {
+        wakeLock.release()
+            .then(() => {
+                wakeLock = null;
+            });
+    }
+}
 //-------------------------------------------------------------------------------------------
 
 // SALIR DE CORTINAS
